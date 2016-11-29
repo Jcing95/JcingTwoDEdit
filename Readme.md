@@ -8,4 +8,4 @@ It simply does not use any native Libraries because I was not capable of using L
 At this Moment this Project is paused, because I'm working on a 3D Game Engine _with **LWJGL**_.
 
 It uses some Third Party Ressources of some old Games i Played.
-__I DO NOT OWN COPYRIGHT ON THOSE FILES AS STATED IN THE LICENSE-FILE__ and will remove them _imidiately_ at [request]:mailto:jasin95@googlemail.com 
+__I DO NOT OWN COPYRIGHT ON THOSE FILES AS STATED IN THE LICENSE-FILE__ and will remove them _imidiately_ at [request]: mailto:jasin95@googlemail.com 
