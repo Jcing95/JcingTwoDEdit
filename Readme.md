@@ -8,7 +8,7 @@ Maybe I will update this Project someday to use LWJGL.
 
 At this Moment this Project is paused, because I'm working on a 3D Game Engine _with **LWJGL**_.
 
-It uses some Third Party Ressources of some old Games i Played.
 
+It uses some Third Party Ressources of some old Games i Played.
 __I DO NOT OWN COPYRIGHT ON THOSE FILES AS STATED IN THE LICENSE-FILE__ and will remove them _imidiately_ at [request] (jasin95@googlemail.com "My private Email!")
 
