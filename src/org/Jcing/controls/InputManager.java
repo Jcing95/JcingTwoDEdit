@@ -19,7 +19,7 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 
 	Main m;
 
-	public static Mouse mouse;
+	  static Mouse mouse;
 	public static KeyBoard keyboard;
 	public static BindingManager bm = new BindingManager(50);
 
@@ -41,8 +41,7 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		mouse.x = e.getX();
-		mouse.y = e.getY();
+		Mouse.update(e);
 		
 		if (m.getCreator() != null && !m.options().creatorWindowed && m.getWin().creatorShown()) {
 			if (!m.getCreator().hovered(e.getX(), e.getY())) {
@@ -62,8 +61,7 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		mouse.x = e.getX();
-		mouse.y = e.getY();
+		Mouse.update(e);
 		if (m.getCreator() != null && !m.options().creatorWindowed && m.getWin().creatorShown()) {
 			if (!m.getCreator().hovered(e.getX(), e.getY())) {
 				// System.out.println("ADD TILE!");
