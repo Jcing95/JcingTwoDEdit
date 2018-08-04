@@ -35,7 +35,7 @@ public class ScrollPane extends Pane implements Routine {
 		}
 	}
 
-	public void go() {
+	public void runner() {
 		for (int i = 0; i < paintables.size(); i++) {
 			if (paintables.get(i) != null) {
 				paintables.get(i).setY(paintables.get(i).getY() - toMove);

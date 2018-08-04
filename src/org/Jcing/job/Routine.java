@@ -1,11 +1,20 @@
 package org.Jcing.job;
 
-public interface Routine {
-
-	/**
-	 * is called by the Job when time to pass has passed
-	 */
-	public void go();
+public class Routine{
+	
+	
+	protected Job job;
+	
+	protected Runnable run;
+	
+	
+	public Routine(Runnable run) {
+		this.run = run;
+	}
+	
+	public Runnable runner() {
+		return run;
+	}
 
 	/**
 	 * is called when Job is initializing. use to end the Job from the Routine
@@ -14,6 +23,8 @@ public interface Routine {
 	 * @param job
 	 *            job which will run this Routine.
 	 */
-	public void setJob(Job job);
+	public void setJob(Job job) {
+		this.job = job;
+	}
 
 }

@@ -13,7 +13,7 @@ import org.Jcing.job.Job;
 import org.Jcing.job.Routine;
 import org.Jcing.main.Main;
 
-public class Entity implements Paintable, Routine {
+public class Entity implements Paintable {
 
 	public static final int MPS = 1000;
 	public static final double MOVEMENTCAP = 5.0;
@@ -54,7 +54,7 @@ public class Entity implements Paintable, Routine {
 		footPrint = new Rectangle(0, 16, 24, 16);
 		this.lvl = lvl;
 		tiles = new ArrayList<Tile>();
-		job = new Job(this, MPS, "Player Movement");
+		job = new Job(routine, MPS, "Player Movement");
 		job.start();
 	}
 	
@@ -207,7 +207,7 @@ public class Entity implements Paintable, Routine {
 		this.footPrint = footPrint;
 	}
 
-	public void go() {
+	public Routine routine = new Routine( () -> {
 		if (movementSpeedY == 0 && movementSpeedX == 0) {
 			job.pause(true);
 			wallX = 0;
@@ -235,7 +235,7 @@ public class Entity implements Paintable, Routine {
 				wallY = 0;
 			}
 		}
-	}
+	});
 
 	public void setJob(Job job) {
 		this.job = job;

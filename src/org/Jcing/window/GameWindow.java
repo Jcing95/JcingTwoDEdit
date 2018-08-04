@@ -147,7 +147,7 @@ public class GameWindow extends	Canvas implements Routine, WindowListener, Compo
 //		
 //	}
 
-	public void go() {
+	public void runner() {
 		render();
 	}
 

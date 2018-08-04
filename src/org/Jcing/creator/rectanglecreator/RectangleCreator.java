@@ -167,7 +167,7 @@ public class RectangleCreator extends Window
 
 	}
 
-	public void go() {
+	public void runner() {
 		if (initialized)
 			reload();
 	}

@@ -15,7 +15,7 @@ import org.Jcing.job.Routine;
  * @author Jcing
  *
  */
-public class BindingManager implements Routine {
+public class BindingManager {
 
 	private static HashMap<Integer, Binding> bindings = new HashMap<Integer, Binding>();
 	private Job job;
@@ -61,8 +61,10 @@ public class BindingManager implements Routine {
 		if (bindings.containsKey(keyCode))
 			bindings.get(keyCode).release();
 	}
-
-	public synchronized void go() {
+	
+	
+	//TODO: check here
+	public synchronized void runner() {
 		if (!bindings.isEmpty()) {
 			Iterator<Integer> i = iterator();
 			while (i.hasNext()) {

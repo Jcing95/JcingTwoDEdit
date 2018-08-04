@@ -14,7 +14,7 @@ import org.Jcing.job.Routine;
 import org.Jcing.main.CollectedImage;
 import org.Jcing.main.Main;
 
-public class Chunk implements Serializable, Routine {
+public class Chunk implements Serializable {
 
 	/**
 	 * 
@@ -301,7 +301,7 @@ public class Chunk implements Serializable, Routine {
 		this.animated = animated;
 	}
 
-	public void go() {
+	public void runner() {
 		// TODO Auto-generated method stub
 
 	}

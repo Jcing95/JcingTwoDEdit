@@ -403,7 +403,7 @@ public class Creator implements Routine, Executable, Selector, Remindable<Main> 
 		paint(img.getGraphics());
 	}
 
-	public void go() {
+	public void runner() {
 		img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 		paint(img.getGraphics());
 		if (m.options().creatorWindowed) {

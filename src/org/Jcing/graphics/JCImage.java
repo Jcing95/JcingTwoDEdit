@@ -152,7 +152,7 @@ public class JCImage implements Routine {
 		return animated;
 	}
 
-	public void go() {
+	public void runner() {
 		if (index >= imgs.get(anim).size() - 1) {
 			index = 0;
 		} else {

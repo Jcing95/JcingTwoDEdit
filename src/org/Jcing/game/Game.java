@@ -90,7 +90,7 @@ public class Game implements Routine, Executable, Remindable<Main> {
 		return levels.get(0);
 	}
 
-	public void go() {
+	public void runner() {
 		//		getActiveLevel().tick();
 	}
 
