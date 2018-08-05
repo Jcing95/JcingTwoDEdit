@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.Jcing.Essentials.OutputStreamController;
 import org.Jcing.controls.InputManager;
+import org.Jcing.controls.Mouse;
 import org.Jcing.files.FileLoader;
 import org.Jcing.files.FolderLoader;
 import org.Jcing.game.Game;
@@ -220,9 +221,9 @@ public class Level {
 	}
 
 	public void click(boolean drag) {
-		int x = InputManager.mouse.x - offset.x;
-		int y = InputManager.mouse.y - offset.y;
-		if (hoveredChunk != null && !InputManager.mouse.pressed) {
+		int x = Mouse.getX() - offset.x;
+		int y = Mouse.getY() - offset.y;
+		if (hoveredChunk != null && !Mouse.isPressed()) {
 			if (hoveredChunk != null) {
 				if (chunkHovered && deleteChunks && getChunk(hoveredChunk) != null) {
 					chunks.remove(getChunk(hoveredChunk));
@@ -232,7 +233,7 @@ public class Level {
 			}
 		}
 		boolean rightClick = false;
-		if (InputManager.mouse.button == MouseEvent.BUTTON3) {
+		if (Mouse.getButton() == MouseEvent.BUTTON3) {
 			rightClick = true;
 		}
 		

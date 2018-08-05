@@ -45,7 +45,7 @@ import org.Jcing.main.Main;
 import org.Jcing.main.Remindable;
 import org.Jcing.window.GameWindow;
 
-public class Creator implements Routine, Executable, Selector, Remindable<Main> {
+public class Creator implements Executable, Selector, Remindable<Main> {
 
 	private Main m;
 	private Game g;
@@ -356,7 +356,7 @@ public class Creator implements Routine, Executable, Selector, Remindable<Main> 
 	// }
 
 	public void finish() {
-		job.finish();
+		routine.finish();
 		if (frame != null) {
 			frame.finish();
 		}
@@ -403,7 +403,7 @@ public class Creator implements Routine, Executable, Selector, Remindable<Main> 
 		paint(img.getGraphics());
 	}
 
-	public void runner() {
+	private Routine routine = new Routine(() -> {
 		img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 		paint(img.getGraphics());
 		if (m.options().creatorWindowed) {
@@ -413,7 +413,7 @@ public class Creator implements Routine, Executable, Selector, Remindable<Main> 
 		if (size.height < tilePane.getHeight() + 50) {
 			o.println("HAZARD XD" + size.getHeight() + "|" + tilePane.getHeight());
 		}
-	}
+	});
 
 	public void setJob(Job job) {
 		this.job = job;
@@ -572,5 +572,9 @@ public class Creator implements Routine, Executable, Selector, Remindable<Main> 
 
 	public void remind(Main r) {
 		setCreatorSize(r.getWin().getSize());
+	}
+
+	public Routine getRoutine() {
+		return routine;
 	}
 }

@@ -17,7 +17,7 @@ import org.Jcing.job.Routine;
 import org.Jcing.main.Main;
 import org.Jcing.main.Remindable;
 
-public class Game implements Routine, Executable, Remindable<Main> {
+public class Game implements Executable, Remindable<Main> {
 
 	private Job job;
 
@@ -90,18 +90,14 @@ public class Game implements Routine, Executable, Remindable<Main> {
 		return levels.get(0);
 	}
 
-	public void runner() {
+	private Routine routine = new Routine(() -> {
 		//		getActiveLevel().tick();
-	}
+	});
 
 	public void finish() {
-		job.finish();
+		routine.finish();
 		//TODO: Save binding
 		getActiveLevel().save();
-	}
-
-	public void setJob(Job job) {
-		this.job = job;
 	}
 
 	public void execute(Binding binding) {
@@ -115,5 +111,9 @@ public class Game implements Routine, Executable, Remindable<Main> {
 	public void remind(Main r) {
 		testent.accelerateX(true);
 		getActiveLevel().setSize(main.getWin().getSize());
+	}
+
+	public Routine getRoutine() {
+		return routine;
 	}
 }

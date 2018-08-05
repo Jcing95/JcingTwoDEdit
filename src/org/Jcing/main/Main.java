@@ -6,7 +6,6 @@ import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
 import org.Jcing.controls.InputManager;
 import org.Jcing.creator.Creator;
-import org.Jcing.files.FolderLoader;
 import org.Jcing.game.Game;
 import org.Jcing.job.JobManager;
 import org.Jcing.window.GameWindow;
@@ -55,9 +54,9 @@ public class Main implements Executable {
 		creator = new Creator(game, win);
 		
 		jm = new JobManager();
-		jm.addJob(game, 20, "mainGame");
-		jm.addJob(win, 1000, "gameWindow");
-		jm.addJob(creator, 60, "gameCreator");
+		jm.addJob(game.getRoutine(), 20, "mainGame");
+		jm.addJob(win.getRoutine(), 1000, "gameWindow");
+		jm.addJob(creator.getRoutine(), 60, "gameCreator");
 		jm.startJobs();
 		
 		exit = new Binding(KeyEvent.VK_ESCAPE, this);

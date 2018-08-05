@@ -18,7 +18,12 @@ import org.Jcing.job.Routine;
 import org.Jcing.window.Window;
 
 public class RectangleCreator extends Window
-		implements KeyListener, MouseListener, MouseMotionListener, WindowListener, Routine {
+		implements KeyListener, MouseListener, MouseMotionListener, WindowListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -348368734505865888L;
 
 	public RectangleCreator(String title) {
 		super(title);
@@ -37,7 +42,7 @@ public class RectangleCreator extends Window
 		//setVisible(true);
 		requestFocus();
 		setRect(def);
-		job = new Job(this, 10, "RectangleCreator");
+		job = new Job(routine, 10, "RectangleCreator");
 		job.start();
 		initialized = true;
 	}
@@ -167,10 +172,10 @@ public class RectangleCreator extends Window
 
 	}
 
-	public void runner() {
+	private Routine routine = new Routine(() -> {
 		if (initialized)
 			reload();
-	}
+	});
 
 	public void start() {
 		//		job.start();

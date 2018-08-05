@@ -86,7 +86,7 @@ public class Job extends Thread {
 			difft -= (long) difft;
 			difft += (System.currentTimeMillis() - lastTick) - waitingTime;
 			lastTick = System.currentTimeMillis();
-			routine.runner();
+			routine.run();
 
 			if (System.currentTimeMillis() - lastSec >= 1000) {
 				tps = ticks;

@@ -28,7 +28,7 @@ public class BindingManager {
 	 */
 	public BindingManager(int TPS) {
 		bindings = new HashMap<Integer, Binding>();
-		job = new Job(this, TPS, "Binding Manager");
+		job = new Job(routine, TPS, "Binding Manager");
 		job.start();
 	}
 
@@ -64,7 +64,7 @@ public class BindingManager {
 	
 	
 	//TODO: check here
-	public synchronized void runner() {
+	private Routine routine = new Routine(() -> {
 		if (!bindings.isEmpty()) {
 			Iterator<Integer> i = iterator();
 			while (i.hasNext()) {
@@ -76,7 +76,7 @@ public class BindingManager {
 		} else {
 			job.pause(true);
 		}
-	}
+	});
 
 	/**
 	 * @return Iterator of the <i>keySet</i> (bound KeyCodes)

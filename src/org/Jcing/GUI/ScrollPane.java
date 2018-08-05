@@ -5,7 +5,7 @@ import java.awt.Color;
 import org.Jcing.job.Job;
 import org.Jcing.job.Routine;
 
-public class ScrollPane extends Pane implements Routine {
+public class ScrollPane extends Pane {
 
 	public static final Color DEFAULTCOLOR = new Color(200, 20, 70, 100);
 	private Job job;
@@ -17,7 +17,7 @@ public class ScrollPane extends Pane implements Routine {
 	public ScrollPane(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		color = DEFAULTCOLOR;
-		scroll = new Job(this, 40, "scroll");
+		scroll = new Job(routine, 40, "scroll");
 		setyOffset(0);
 //		scroll.setForceTime(0);
 	}
@@ -35,7 +35,7 @@ public class ScrollPane extends Pane implements Routine {
 		}
 	}
 
-	public void runner() {
+	private Routine routine = new Routine(() -> {
 		for (int i = 0; i < paintables.size(); i++) {
 			if (paintables.get(i) != null) {
 				paintables.get(i).setY(paintables.get(i).getY() - toMove);
@@ -53,7 +53,7 @@ public class ScrollPane extends Pane implements Routine {
 		if (toMove == 0) {
 			job.pause(true);
 		}
-	}
+	});
 
 	public void setJob(Job job) {
 		this.job = job;

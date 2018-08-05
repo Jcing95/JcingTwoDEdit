@@ -41,7 +41,6 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		Mouse.update(e);
 		
 		if (m.getCreator() != null && !m.options().creatorWindowed && m.getWin().creatorShown()) {
 			if (!m.getCreator().hovered(e.getX(), e.getY())) {
@@ -61,7 +60,6 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		Mouse.update(e);
 		if (m.getCreator() != null && !m.options().creatorWindowed && m.getWin().creatorShown()) {
 			if (!m.getCreator().hovered(e.getX(), e.getY())) {
 				// System.out.println("ADD TILE!");
@@ -78,8 +76,7 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mousePressed(MouseEvent e) {
-		mouse.pressed = true;
-		mouse.button = e.getButton();
+		
 		if (m.getCreator() != null && !m.options().creatorWindowed) {
 			if (!m.getCreator().hovered(e.getX(), e.getY())) {
 				System.out.println("ADD TILE!");
@@ -93,7 +90,6 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		mouse.pressed = false;
 		if (m.getCreator() != null && !m.options().creatorWindowed) {
 			if (!m.getCreator().hovered(e.getX(), e.getY())) {
 				// System.out.println("ADD TILE!");

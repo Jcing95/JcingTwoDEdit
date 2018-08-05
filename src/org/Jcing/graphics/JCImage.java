@@ -10,7 +10,7 @@ import org.Jcing.files.FolderLoader;
 import org.Jcing.job.Job;
 import org.Jcing.job.Routine;
 
-public class JCImage implements Routine {
+public class JCImage {
 
 	private ArrayList<ArrayList<BufferedImage>> imgs;
 	//	private ArrayList<ArrayList<int[][]>> pixels;
@@ -71,7 +71,7 @@ public class JCImage implements Routine {
 			index = 0;
 			anim = 0;
 			fps = DEFAULTFPS;
-			job = new Job(this, fps, "Animation " + path);
+			job = new Job(routine, fps, "Animation " + path);
 			for (int i = 0; i < loaded.size(); i++) {
 				imgs.get(0).add(loaded.get(i).getImg());
 			}
@@ -87,7 +87,7 @@ public class JCImage implements Routine {
 			fps = DEFAULTFPS;
 		}
 		if(job == null){
-			job = new Job(this, fps, "Animation " + path);
+			job = new Job(routine, fps, "Animation " + path);
 			job.start();
 		}
 		//		imgs.add(FolderLoader.numericLoad(path));
@@ -152,14 +152,14 @@ public class JCImage implements Routine {
 		return animated;
 	}
 
-	public void runner() {
+	private Routine routine = new Routine(() -> {
 		if (index >= imgs.get(anim).size() - 1) {
 			index = 0;
 		} else {
 			index++;
 		}
 		//		index %= imgs.get(anim).size();
-	}
+	});
 
 	public void setJob(Job job) {
 		this.job = job;

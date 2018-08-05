@@ -16,12 +16,13 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 import org.Jcing.controls.InputManager;
+import org.Jcing.controls.Mouse;
 import org.Jcing.job.Job;
 import org.Jcing.job.Routine;
 import org.Jcing.main.Main;
 import org.Jcing.main.Remindable;
 
-public class GameWindow extends	Canvas implements Routine, WindowListener, ComponentListener, Remindable<Main> {
+public class GameWindow extends	Canvas implements WindowListener, ComponentListener, Remindable<Main> {
 
 	/**
 	 * 
@@ -64,8 +65,9 @@ public class GameWindow extends	Canvas implements Routine, WindowListener, Compo
 		addKeyListener(im);
 		frame.addWindowListener(this);
 		addMouseListener(im);
+		addMouseListener(new Mouse());
+		addMouseMotionListener(new Mouse());
 		addMouseMotionListener(im);
-		
 		frame.requestFocus();
 		requestFocus();
 
@@ -111,7 +113,7 @@ public class GameWindow extends	Canvas implements Routine, WindowListener, Compo
 	}
 
 	public void finish() {
-		job.finish();
+		routine.finish();
 		this.setVisible(false);
 		this.setEnabled(false);
 	}
@@ -123,8 +125,7 @@ public class GameWindow extends	Canvas implements Routine, WindowListener, Compo
 		if(bs == null){
 			createBufferStrategy(3);
 			return;
-		}
-		
+		}		
 		Graphics g = bs.getDrawGraphics();
 		
 		g.setColor(getBackground());
@@ -147,9 +148,9 @@ public class GameWindow extends	Canvas implements Routine, WindowListener, Compo
 //		
 //	}
 
-	public void runner() {
+	private Routine routine = new Routine (() -> {
 		render();
-	}
+	});
 
 	public void setJob(Job job) {
 		this.job = job;
@@ -243,6 +244,10 @@ public class GameWindow extends	Canvas implements Routine, WindowListener, Compo
 	public void remind(Main r) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Routine getRoutine() {
+		return routine;
 	}
 
 }

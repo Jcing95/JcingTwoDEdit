@@ -12,7 +12,7 @@ public class Routine{
 		this.run = run;
 	}
 	
-	public Runnable runner() {
+	public Runnable runners() {
 		return run;
 	}
 
@@ -25,6 +25,14 @@ public class Routine{
 	 */
 	public void setJob(Job job) {
 		this.job = job;
+	}
+
+	public void finish() {
+		job.finish();
+	}
+
+	public void run() {
+		run.run();
 	}
 
 }

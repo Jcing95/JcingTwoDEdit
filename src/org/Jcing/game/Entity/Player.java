@@ -6,6 +6,7 @@ import org.Jcing.Essentials.OutputStreamController;
 import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
 import org.Jcing.controls.InputManager;
+import org.Jcing.controls.Mouse;
 import org.Jcing.game.world.Level;
 import org.Jcing.graphics.JCImage;
 import org.Jcing.main.Main;
@@ -28,12 +29,12 @@ public class Player extends Entity implements Executable, Remindable<Main> {
 
 	protected void moveX(int x) {
 		lvl.addX(-x);
-		lvl.hover(InputManager.mouse.x, InputManager.mouse.y);
+		lvl.hover(Mouse.getX(), Mouse.getY());
 	}
 
 	protected void moveY(int y) {
 		lvl.addY(-y);
-		lvl.hover(InputManager.mouse.x, InputManager.mouse.y);
+		lvl.hover(Mouse.getY(), Mouse.getY());
 	}
 
 	public void execute(Binding binding) {
