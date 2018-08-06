@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 
 /**
  * <b>BindingManager</b> is a static Object in InputManager. It can also be used
@@ -64,7 +63,7 @@ public class BindingManager {
 	
 	
 	//TODO: check here
-	private Routine routine = new Routine(() -> {
+	private Runnable routine = () -> {
 		if (!bindings.isEmpty()) {
 			Iterator<Integer> i = iterator();
 			while (i.hasNext()) {
@@ -76,7 +75,7 @@ public class BindingManager {
 		} else {
 			job.pause(true);
 		}
-	});
+	};
 
 	/**
 	 * @return Iterator of the <i>keySet</i> (bound KeyCodes)

@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import org.Jcing.Essentials.OutputStreamController;
 import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
-import org.Jcing.controls.InputManager;
 import org.Jcing.controls.Mouse;
 import org.Jcing.game.world.Level;
 import org.Jcing.graphics.JCImage;

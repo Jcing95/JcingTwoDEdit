@@ -14,7 +14,6 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 import org.Jcing.window.Window;
 
 public class RectangleCreator extends Window
@@ -172,10 +171,10 @@ public class RectangleCreator extends Window
 
 	}
 
-	private Routine routine = new Routine(() -> {
+	private Runnable routine = () -> {
 		if (initialized)
 			reload();
-	});
+	};
 
 	public void start() {
 		//		job.start();

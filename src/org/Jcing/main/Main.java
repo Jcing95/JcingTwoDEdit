@@ -54,9 +54,9 @@ public class Main implements Executable {
 		creator = new Creator(game, win);
 		
 		jm = new JobManager();
-		jm.addJob(game.getRoutine(), 20, "mainGame");
-		jm.addJob(win.getRoutine(), 1000, "gameWindow");
-		jm.addJob(creator.getRoutine(), 60, "gameCreator");
+		jm.addJob(game.getJob(), 20, "mainGame");
+		jm.addJob(win.getJob(), 1000, "gameWindow");
+		jm.addJob(creator.getJob(), 60, "gameCreator");
 		jm.startJobs();
 		
 		exit = new Binding(KeyEvent.VK_ESCAPE, this);

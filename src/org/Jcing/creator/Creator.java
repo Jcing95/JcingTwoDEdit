@@ -39,7 +39,6 @@ import org.Jcing.game.world.Level;
 import org.Jcing.game.world.Tile;
 import org.Jcing.graphics.Resizable;
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 import org.Jcing.main.CollectedImage;
 import org.Jcing.main.Main;
 import org.Jcing.main.Remindable;
@@ -356,7 +355,6 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 	// }
 
 	public void finish() {
-		routine.finish();
 		if (frame != null) {
 			frame.finish();
 		}
@@ -403,7 +401,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		paint(img.getGraphics());
 	}
 
-	private Routine routine = new Routine(() -> {
+	private Runnable routine = () -> {
 		img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 		paint(img.getGraphics());
 		if (m.options().creatorWindowed) {
@@ -413,7 +411,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		if (size.height < tilePane.getHeight() + 50) {
 			o.println("HAZARD XD" + size.getHeight() + "|" + tilePane.getHeight());
 		}
-	});
+	};
 
 	public void setJob(Job job) {
 		this.job = job;
@@ -574,7 +572,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		setCreatorSize(r.getWin().getSize());
 	}
 
-	public Routine getRoutine() {
+	public Runnable getJob() {
 		return routine;
 	}
 }

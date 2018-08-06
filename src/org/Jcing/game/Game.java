@@ -13,7 +13,6 @@ import org.Jcing.game.Entity.Player;
 import org.Jcing.game.world.Level;
 import org.Jcing.graphics.JCImage;
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 import org.Jcing.main.Main;
 import org.Jcing.main.Remindable;
 
@@ -90,12 +89,12 @@ public class Game implements Executable, Remindable<Main> {
 		return levels.get(0);
 	}
 
-	private Routine routine = new Routine(() -> {
+	private Runnable routine = () -> {
 		//		getActiveLevel().tick();
-	});
+	};
 
 	public void finish() {
-		routine.finish();
+//		routine.finish();
 		//TODO: Save binding
 		getActiveLevel().save();
 	}
@@ -113,7 +112,7 @@ public class Game implements Executable, Remindable<Main> {
 		getActiveLevel().setSize(main.getWin().getSize());
 	}
 
-	public Routine getRoutine() {
+	public Runnable getJob() {
 		return routine;
 	}
 }

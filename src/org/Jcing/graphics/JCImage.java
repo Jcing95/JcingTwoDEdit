@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import org.Jcing.files.FileLoader;
 import org.Jcing.files.FolderLoader;
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 
 public class JCImage {
 
@@ -152,14 +151,14 @@ public class JCImage {
 		return animated;
 	}
 
-	private Routine routine = new Routine(() -> {
+	private Runnable routine = () -> {
 		if (index >= imgs.get(anim).size() - 1) {
 			index = 0;
 		} else {
 			index++;
 		}
 		//		index %= imgs.get(anim).size();
-	});
+	};
 
 	public void setJob(Job job) {
 		this.job = job;

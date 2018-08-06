@@ -10,7 +10,6 @@ import org.Jcing.game.world.Level;
 import org.Jcing.game.world.Tile;
 import org.Jcing.graphics.JCImage;
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 import org.Jcing.main.Main;
 
 public class Entity implements Paintable {
@@ -207,7 +206,7 @@ public class Entity implements Paintable {
 		this.footPrint = footPrint;
 	}
 
-	public Routine routine = new Routine( () -> {
+	public Runnable routine = () -> {
 		if (movementSpeedY == 0 && movementSpeedX == 0) {
 			job.pause(true);
 			wallX = 0;
@@ -235,7 +234,7 @@ public class Entity implements Paintable {
 				wallY = 0;
 			}
 		}
-	});
+	};
 
 	public void setJob(Job job) {
 		this.job = job;

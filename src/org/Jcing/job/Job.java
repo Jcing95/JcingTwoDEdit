@@ -6,7 +6,7 @@ public class Job extends Thread {
 	private int TPS;
 	private double waitingTime;
 	private boolean running, pause;
-	private Routine routine;
+	private Runnable routine;
 	private boolean forcejoin = false;
 	private static int defaultforceTime = 1000;
 	private int forceTime;
@@ -28,13 +28,12 @@ public class Job extends Thread {
 	 * @param name
 	 *            Name of the Job (and its Thread)
 	 */
-	public Job(Routine routine, int tps, String name) {
+	public Job(Runnable routine, int tps, String name) {
 		TPS = tps;
 		waitingTime = 1000.0 / TPS;
 		this.forceTime = defaultforceTime;
 		this.routine = routine;
 		this.setName(name);
-		this.routine.setJob(this);
 		dead = true;
 	}
 
@@ -46,7 +45,6 @@ public class Job extends Thread {
 		dead = false;
 		running = true;
 		pause = false;
-		this.routine.setJob(this);
 		super.start();
 	}
 

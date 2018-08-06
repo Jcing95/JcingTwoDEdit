@@ -10,7 +10,6 @@ import java.io.Serializable;
 import org.Jcing.Essentials.OutputStreamController;
 import org.Jcing.graphics.JCImage;
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 import org.Jcing.main.CollectedImage;
 import org.Jcing.main.Main;
 

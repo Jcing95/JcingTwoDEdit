@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 import org.Jcing.controls.InputManager;
 import org.Jcing.controls.Mouse;
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 import org.Jcing.main.Main;
 import org.Jcing.main.Remindable;
 
@@ -113,7 +112,7 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	}
 
 	public void finish() {
-		routine.finish();
+//		routine.finish();
 		this.setVisible(false);
 		this.setEnabled(false);
 	}
@@ -148,9 +147,9 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 //		
 //	}
 
-	private Routine routine = new Routine (() -> {
+	private Runnable routine = () -> {
 		render();
-	});
+	};
 
 	public void setJob(Job job) {
 		this.job = job;
@@ -244,10 +243,6 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	public void remind(Main r) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public Routine getRoutine() {
-		return routine;
 	}
 
 }

@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.Jcing.Essentials.OutputStreamController;
-import org.Jcing.controls.InputManager;
 import org.Jcing.controls.Mouse;
 import org.Jcing.files.FileLoader;
 import org.Jcing.files.FolderLoader;

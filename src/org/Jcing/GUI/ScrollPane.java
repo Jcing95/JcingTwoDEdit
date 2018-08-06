@@ -3,7 +3,6 @@ package org.Jcing.GUI;
 import java.awt.Color;
 
 import org.Jcing.job.Job;
-import org.Jcing.job.Routine;
 
 public class ScrollPane extends Pane {
 
@@ -35,7 +34,7 @@ public class ScrollPane extends Pane {
 		}
 	}
 
-	private Routine routine = new Routine(() -> {
+	private Runnable routine = () -> {
 		for (int i = 0; i < paintables.size(); i++) {
 			if (paintables.get(i) != null) {
 				paintables.get(i).setY(paintables.get(i).getY() - toMove);
@@ -53,7 +52,7 @@ public class ScrollPane extends Pane {
 		if (toMove == 0) {
 			job.pause(true);
 		}
-	});
+	};
 
 	public void setJob(Job job) {
 		this.job = job;

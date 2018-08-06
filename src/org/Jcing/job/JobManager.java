@@ -39,7 +39,7 @@ public class JobManager {
 	 * @param name
 	 *            Name of Job
 	 */
-	public void addJob(Routine routine, int tps, String name) {
+	public void addJob(Runnable routine, int tps, String name) {
 		jobs.add(new Job(routine, tps, name));
 	}
 
