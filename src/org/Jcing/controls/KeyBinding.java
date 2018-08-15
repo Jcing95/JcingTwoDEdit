@@ -12,7 +12,9 @@ import org.Jcing.Essentials.OutputStreamController;
  * @author Jcing
  *
  */
-public class Binding {
+public class KeyBinding {
+	
+	//TODO: implement Listeners. OnPress, OnRelease, OnType, OnHold or so.
 
 	protected Executable binded;
 	protected int keycode;
@@ -28,7 +30,7 @@ public class Binding {
 	 * @param toBind
 	 *            Executable to fire while bound <b>keyCode</b> is pressed.
 	 */
-	public Binding(int keyCode, Executable toBind) {
+	public KeyBinding(int keyCode, Executable toBind) {
 		init(keyCode, toBind, false);
 	}
 
@@ -43,10 +45,12 @@ public class Binding {
 	 *            press-event. <i>false> if this <b>Binding</b> should fire
 	 *            while bound <b>keyCode</b> is pressed.
 	 */
-	public Binding(int keyCode, Executable toBind, boolean oneClick) {
+	public KeyBinding(int keyCode, Executable toBind, boolean oneClick) {
 		init(keyCode, toBind, oneClick);
 	}
 
+	//TODO: keymap + default keymap in KeyMap class.
+	
 	private void init(int keyCode, Executable toBind, boolean oneClick) {
 		binded = toBind;
 		this.oneclick = oneClick;
