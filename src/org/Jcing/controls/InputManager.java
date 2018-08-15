@@ -17,20 +17,17 @@ import org.Jcing.main.Main;
  */
 public class InputManager implements KeyListener, MouseListener, MouseMotionListener {
 
-	Main m;
-
-	  static Mouse mouse;
+	public static Mouse mouse;
 	public static KeyBoard keyboard;
 	public static BindingManager bm = new BindingManager(50);
 
 	public InputManager() {
-		m = Main.getMain();
 		mouse = new Mouse();
 		keyboard = new KeyBoard();
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// System.out.println("key " + e.getKeyCode());
+		// SysteMain.out.println("key " + e.getKeyCode());
 		keyboard.press(e.getKeyCode());
 		bm.press(e.getKeyCode());
 	}
@@ -42,62 +39,62 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 
 	public void mouseDragged(MouseEvent e) {
 		
-		if (m.getCreator() != null && !m.options().creatorWindowed && m.getWin().creatorShown()) {
-			if (!m.getCreator().hovered(e.getX(), e.getY())) {
-				// System.out.println("ADD TILE!");
-				m.getGame().getActiveLevel().hover(e.getX(), e.getY());
-				m.getGame().getActiveLevel().click(true);
+		if (Main.getCreator() != null && !Main.settings().creatorWindowed && Main.getWin().creatorShown()) {
+			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+				// SysteMain.out.println("ADD TILE!");
+				Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
+				Main.getGame().getActiveLevel().click(true);
 			} else {
 				// TODO: maybe unsafe
-				m.getGame().getActiveLevel().hover(-1000, -1000);
+				Main.getGame().getActiveLevel().hover(-1000, -1000);
 			}
 		} else {
-			// System.out.println("NO CREATOR SEEN");
-			m.getGame().getActiveLevel().hover(e.getX(), e.getY());
-			m.getGame().getActiveLevel().click(true);
+			// SysteMain.out.println("NO CREATOR SEEN");
+			Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
+			Main.getGame().getActiveLevel().click(true);
 		}
 
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (m.getCreator() != null && !m.options().creatorWindowed && m.getWin().creatorShown()) {
-			if (!m.getCreator().hovered(e.getX(), e.getY())) {
-				// System.out.println("ADD TILE!");
-				m.getGame().getActiveLevel().hover(e.getX(), e.getY());
+		if (Main.getCreator() != null && !Main.settings().creatorWindowed && Main.getWin().creatorShown()) {
+			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+				// SysteMain.out.println("ADD TILE!");
+				Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
 			} else {
 				// TODO: maybe unsafe
-				m.getGame().getActiveLevel().hover(-1000, -1000);
+				Main.getGame().getActiveLevel().hover(-1000, -1000);
 			}
 		} else {
-			// System.out.println("NO CREATOR SEEN");
-			m.getGame().getActiveLevel().hover(e.getX(), e.getY());
+			// SysteMain.out.println("NO CREATOR SEEN");
+			Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
 		}
 
 	}
 
 	public void mousePressed(MouseEvent e) {
 		
-		if (m.getCreator() != null && !m.options().creatorWindowed) {
-			if (!m.getCreator().hovered(e.getX(), e.getY())) {
+		if (Main.getCreator() != null && !Main.settings().creatorWindowed) {
+			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
 				System.out.println("ADD TILE!");
-				m.getGame().getActiveLevel().click(false);
+				Main.getGame().getActiveLevel().click(false);
 			}
 		} else {
-			// System.out.println("NO CREATOR SEEN");
-			m.getGame().getActiveLevel().click(false);
+			// SysteMain.out.println("NO CREATOR SEEN");
+			Main.getGame().getActiveLevel().click(false);
 		}
 
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		if (m.getCreator() != null && !m.options().creatorWindowed) {
-			if (!m.getCreator().hovered(e.getX(), e.getY())) {
-				// System.out.println("ADD TILE!");
-				m.getGame().getActiveLevel().click(false);
+		if (Main.getCreator() != null && !Main.settings().creatorWindowed) {
+			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+				// SysteMain.out.println("ADD TILE!");
+				Main.getGame().getActiveLevel().click(false);
 			}
 		} else {
-			// System.out.println("NO CREATOR SEEN");
-			m.getGame().getActiveLevel().click(false);
+			// SysteMain.out.println("NO CREATOR SEEN");
+			Main.getGame().getActiveLevel().click(false);
 		}
 	}
 

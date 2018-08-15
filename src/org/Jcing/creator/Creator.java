@@ -22,8 +22,8 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.Jcing.Essentials.OutputStreamController;
-import org.Jcing.GUI.JCButton;
-import org.Jcing.GUI.JCCheckbox;
+import org.Jcing.GUI.Button;
+import org.Jcing.GUI.Checkbox;
 import org.Jcing.GUI.JCLabel;
 import org.Jcing.GUI.JComponentListener;
 import org.Jcing.GUI.Line;
@@ -32,23 +32,17 @@ import org.Jcing.GUI.Pane;
 import org.Jcing.GUI.ScrollPane;
 import org.Jcing.GUI.Selectable;
 import org.Jcing.GUI.Selector;
-import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
-import org.Jcing.game.Game;
+import org.Jcing.controls.KeyBinding;
 import org.Jcing.game.world.Level;
 import org.Jcing.game.world.Tile;
 import org.Jcing.graphics.Resizable;
 import org.Jcing.job.Job;
 import org.Jcing.main.CollectedImage;
 import org.Jcing.main.Main;
-import org.Jcing.main.Remindable;
-import org.Jcing.window.GameWindow;
 
-public class Creator implements Executable, Selector, Remindable<Main> {
+public class Creator implements Executable, Selector {
 
-	private Main m;
-	private Game g;
-	private GameWindow win;
 	private Job job;
 	
 	private DecimalFormat df = new DecimalFormat("#.###");
@@ -73,7 +67,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 	private ScrollPane tilePane;
 	private Selectable selected;
 
-	private Binding show;
+	private KeyBinding show;
 
 	private ScrollPane leftPane;
 	private Pane addTilesetPane;
@@ -85,31 +79,30 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 	private ArrayList<Paintable> clickables;
 	private ArrayList<Resizable> toResize;
 
-	public final JCCheckbox addChunks;
-	public final JCCheckbox deleteChunks;
-	public final JCCheckbox windowCreator;
-	public final JCCheckbox showGrid;
-	public final JCCheckbox showCollision;
+	public final Checkbox addChunks;
+	public final Checkbox deleteChunks;
+	public final Checkbox windowCreator;
+	public final Checkbox showGrid;
+	public final Checkbox showCollision;
 
-	public final JCButton addTileset;
+	public final Button addTileset;
 
-	private JCCheckbox collision;
-	public final JCCheckbox entitySize;
-	public final JCCheckbox entityFootprint;
+	private Checkbox collision;
+	public final Checkbox entitySize;
+	public final Checkbox entityFootprint;
 
-	public Creator(Game game, GameWindow win) {
-		m = Main.getMain();
-		g = game;
-		this.win = win;
+	public Creator() {
 		title = "JCING Game Creator";
 		background = new Color(15, 10, 50);
 		foreground = new Color(200, 200, 200);
-		show = new Binding(KeyEvent.VK_C, this, true);
+		
+		show = new KeyBinding(KeyEvent.VK_C, this, true);
+		
 //		window = new Binding(KeyEvent.VK_NUMBER_SIGN, this, true);
-//		m.getInputManager().addBinding(show);
-//		m.getInputManager().addBinding(window);
+//		Main.getInputManager().addBinding(show);
+//		Main.getInputManager().addBinding(window);
 
-		cm = new CreatorActions(this, m);
+		cm = new CreatorActions();
 		cl = new JComponentListener();
 
 		clickables = new ArrayList<Paintable>();
@@ -125,8 +118,8 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 
 		frame = new CreatorFrame();
-		if (!m.options().creatorWindowed) {
-			setCreatorSize(win.getSize());
+		if (!Main.settings().creatorWindowed) {
+			setCreatorSize(Main.getWin().getSize());
 		}
 
 		// Panes
@@ -157,8 +150,8 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 
 		leftPane.add(new Line(0, 90, leftPane.getWidth(), 0));
 
-		windowCreator = new JCCheckbox(15, 100);
-		windowCreator.setActive(m.options().creatorWindowed);
+		windowCreator = new Checkbox(15, 100);
+		windowCreator.setActive(Main.settings().creatorWindowed);
 		windowCreator.setClickableManager(cm);
 		cl.add(windowCreator);
 		leftPane.add(windowCreator);
@@ -168,13 +161,13 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 
 		leftPane.add(new Line(0, 125, leftPane.getWidth(), 0));
 
-		addChunks = new JCCheckbox(15, 135);
+		addChunks = new Checkbox(15, 135);
 		addChunks.setClickableManager(cm);
 		// cl.add(addChunks);
 		leftPane.add(addChunks);
 		leftPane.add(new JCLabel(addChunks.getX() + 5 + addChunks.getWidth(), addChunks.getY(), "add Chunks"));
 
-		deleteChunks = new JCCheckbox(15, 155);
+		deleteChunks = new Checkbox(15, 155);
 		deleteChunks.setClickableManager(cm);
 		// cl.add(deleteChunks);
 		leftPane.add(deleteChunks);
@@ -183,15 +176,15 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 
 		leftPane.add(new Line(0, 180, leftPane.getWidth(), 0));
 
-		showGrid = new JCCheckbox(15, 190);
-		showGrid.setActive(m.options().showGrid);
+		showGrid = new Checkbox(15, 190);
+		showGrid.setActive(Main.settings().showGrid);
 		showGrid.setClickableManager(cm);
 		// cl.add(showGrid);
 		leftPane.add(showGrid);
 		leftPane.add(new JCLabel(showGrid.getX() + 5 + showGrid.getWidth(), showGrid.getY(), "show Grid"));
 
-		showCollision = new JCCheckbox(15, 210);
-		showCollision.setActive(m.options().showCollision);
+		showCollision = new Checkbox(15, 210);
+		showCollision.setActive(Main.settings().showCollision);
 		showCollision.setClickableManager(cm);
 		leftPane.add(showCollision);
 		leftPane.add(new JCLabel(showCollision.getX() + 5 + showCollision.getWidth(), showCollision.getY(),
@@ -199,29 +192,29 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 
 		leftPane.add(new Line(0, 235, leftPane.getWidth(), 0));
 		
-		collision = new JCCheckbox(15, 245);
+		collision = new Checkbox(15, 245);
 		collision.setActive(false);
 		leftPane.add(collision);
 		leftPane.add(new JCLabel(collision.getX() + 5 + collision.getWidth(), collision.getY(), "collision"));
 		
 		leftPane.add(new Line(0, 270, leftPane.getWidth(), 0));
 		
-		entitySize = new JCCheckbox(15,280);
-		entitySize.setActive(m.options().showEntitySizes);
+		entitySize = new Checkbox(15,280);
+		entitySize.setActive(Main.settings().showEntitySizes);
 		entitySize.setClickableManager(cm);
 		leftPane.add(entitySize);
 		leftPane.add(new JCLabel(entitySize.getX() + 5 + entitySize.getWidth(), entitySize.getY(),
 				"show entity sizes"));
 		
-		entityFootprint = new JCCheckbox(15,300);
-		entityFootprint.setActive(m.options().showEntitySizes);
+		entityFootprint = new Checkbox(15,300);
+		entityFootprint.setActive(Main.settings().showEntitySizes);
 		entityFootprint.setClickableManager(cm);
 		leftPane.add(entityFootprint);
 		leftPane.add(new JCLabel(entityFootprint.getX() + 5 + entityFootprint.getWidth(), entityFootprint.getY(),
 				"show entity footprints"));
 		
 		
-		addTileset = new JCButton(15, 15, "add Tileset");
+		addTileset = new Button(15, 15, "add Tileset");
 		addTileset.setClickableManager(cm);
 		addTilesetPane.add(addTileset);
 
@@ -251,7 +244,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 			File chosen = fc.getSelectedFile();
 			if (chosen.isDirectory()) {
 				o.println(chosen.getPath());
-				m.getGame().getActiveLevel()
+				Main.getGame().getActiveLevel()
 						.addTileSet("gfx/" + new File("gfx").toURI().relativize(chosen.toURI()).getPath());
 			} else {
 				System.err.println("You can only choose Directories");
@@ -288,13 +281,13 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 
 		int rowlength = (tilePane.getWidth() - 10) / (Tile.SIZE + 10);
 		int y = tilePane.getyOffset() + 10;
-		for (int t = g.getActiveLevel().getTileImgStartIndex(); t < g.getActiveLevel().getImgCollector().size(); t++) {
-			for (int i = 0; i < (double) g.getActiveLevel().getImgCollector().size(t) / rowlength; i++) {
+		for (int t = Main.getGame().getActiveLevel().getTileImgStartIndex(); t < Main.getGame().getActiveLevel().getImgCollector().size(); t++) {
+			for (int i = 0; i < (double) Main.getGame().getActiveLevel().getImgCollector().size(t) / rowlength; i++) {
 				for (int j = 0; j < rowlength; j++) {
-					if (g.getActiveLevel().getImgCollector().size(t) > i * rowlength + j) {
+					if (Main.getGame().getActiveLevel().getImgCollector().size(t) > i * rowlength + j) {
 
 						tilePane.add(new Selectable(10 + j * (Tile.SIZE + 10), y,
-								g.getActiveLevel().getImgCollector().get(t, i * rowlength + j), this));
+								Main.getGame().getActiveLevel().getImgCollector().get(t, i * rowlength + j), this));
 						o.println("added selectable nr: " + (i * rowlength + j) + " of tileset " + t);
 					}
 				}
@@ -308,7 +301,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 
 	public CollectedImage getSelectedImage() {
 		if (selected != null)
-			return g.getActiveLevel().getImgCollector().find(selected.getImg());
+			return Main.getGame().getActiveLevel().getImgCollector().find(selected.getImg());
 		return Level.DEFAULTTILE;
 
 		// TODO: Collision
@@ -320,26 +313,26 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 	
 	public void toggleWindow() {
 
-		if (m.options().creatorWindowed) {
-			m.options().creatorWindowed = false;
-			setCreatorSize(win.getSize());
+		if (Main.settings().creatorWindowed) {
+			Main.settings().creatorWindowed = false;
+			setCreatorSize(Main.getWin().getSize());
 			frame.setVisible(false);
 			job.pause(true);
 		} else {
-			if (win.creatorShown())
-				win.toggleShowCreator();
+			if (Main.getWin().creatorShown())
+				Main.getWin().toggleShowCreator();
 			job.pause(false);
 			setCreatorSize(frame.getSize());
 			frame.setVisible(true);
 
-			m.options().creatorWindowed = true;
+			Main.settings().creatorWindowed = true;
 		}
 	}
 
 	public void add(Paintable paintable) {
 		clickables.add(paintable);
 		// if (paintable != null) {
-		// if (m.options().creatorWindowed) {
+		// if (Main.options().creatorWindowed) {
 		// // frame.add(paintable.getComponent());
 		// }
 		//
@@ -347,7 +340,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 	}
 
 	// public void addbuttons() {
-	// if (m.options().creatorWinowed) {
+	// if (Main.options().creatorWinowed) {
 	// for (int i = 0; i < clickables.size(); i++) {
 	// frame.add(clickables.get(i));
 	// }
@@ -368,19 +361,19 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		}
 
 		g.setColor(foreground);
-		if (m.getWin().getJob() != null)
-			g.drawString("FPS: " + m.getWin().getJob().getTps(), 20, 45);
+		if (Main.getWin().getJob() != null) //TODO: calculate TPS for Jobs.
+			g.drawString("FPS: N/A", 20, 45);
 
-		g.drawString("X: " + m.getGame().getActiveLevel().getPlayer().getX() + " Y: "
-				+ m.getGame().getActiveLevel().getPlayer().getY(), 20, 65);
+		g.drawString("X: " + Main.getGame().getActiveLevel().getPlayer().getX() + " Y: "
+				+ Main.getGame().getActiveLevel().getPlayer().getY(), 20, 65);
 
-		g.drawString("PPT: " + df.format(Math.sqrt(m.getGame().getActiveLevel().getPlayer().getMovementSpeedX()
-				* m.getGame().getActiveLevel().getPlayer().getMovementSpeedX()
-				+ m.getGame().getActiveLevel().getPlayer().getMovementSpeedY()
-						* m.getGame().getActiveLevel().getPlayer().getMovementSpeedY())),
+		g.drawString("PPT: " + df.format(Math.sqrt(Main.getGame().getActiveLevel().getPlayer().getMovementSpeedX()
+				* Main.getGame().getActiveLevel().getPlayer().getMovementSpeedX()
+				+ Main.getGame().getActiveLevel().getPlayer().getMovementSpeedY()
+						* Main.getGame().getActiveLevel().getPlayer().getMovementSpeedY())),
 				20, 85);
 
-		if (m.options().creatorWindowed && frame != null) {
+		if (Main.settings().creatorWindowed && frame != null) {
 			frame.repaint();
 		}
 	}
@@ -404,7 +397,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 	private Runnable routine = () -> {
 		img = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 		paint(img.getGraphics());
-		if (m.options().creatorWindowed) {
+		if (Main.settings().creatorWindowed) {
 			frame.repaint();
 		}
 
@@ -417,10 +410,10 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		this.job = job;
 	}
 
-	public void execute(Binding binding) {
+	public void execute(KeyBinding binding) {
 		if (binding == show) {
-			if (!m.options().creatorWindowed)
-				win.toggleShowCreator();
+			if (!Main.settings().creatorWindowed)
+				Main.getWin().toggleShowCreator();
 		}
 	}
 
@@ -464,10 +457,10 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 			setBounds(size);
 
 			addComponentListener(this);
-			addKeyListener(m.getInputManager());
+			addKeyListener(Main.getInputManager());
 			setExtendedState(Frame.MAXIMIZED_BOTH);
 			addWindowListener(this);
-			if (m.options().creatorWindowed) {
+			if (Main.settings().creatorWindowed) {
 				setVisible(true);
 				setCreatorSize(getSize());
 			}
@@ -520,7 +513,7 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 		}
 
 		public void windowClosing(WindowEvent arg0) {
-			m.finish();
+			Main.finish();
 		}
 
 		public void windowDeactivated(WindowEvent arg0) {
@@ -566,10 +559,6 @@ public class Creator implements Executable, Selector, Remindable<Main> {
 			repaint();
 		}
 
-	}
-
-	public void remind(Main r) {
-		setCreatorSize(r.getWin().getSize());
 	}
 
 	public Runnable getJob() {

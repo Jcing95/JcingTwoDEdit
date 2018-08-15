@@ -3,27 +3,26 @@ package org.Jcing.game.Entity;
 import java.awt.event.KeyEvent;
 
 import org.Jcing.Essentials.OutputStreamController;
-import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
+import org.Jcing.controls.KeyBinding;
 import org.Jcing.controls.Mouse;
 import org.Jcing.game.world.Level;
 import org.Jcing.graphics.JCImage;
 import org.Jcing.main.Main;
-import org.Jcing.main.Remindable;
 
-public class Player extends Entity implements Executable, Remindable<Main> {
+public class Player extends Entity implements Executable {
 
-	private Binding right, left, up, down;
+	private KeyBinding right, left, up, down;
 	private static OutputStreamController o = new OutputStreamController("Player", true);
 
-	private Binding last;
+	private KeyBinding last;
 
 	public Player(JCImage img, Level lvl) {
 		super(img, 0, 0, lvl);
-		right = new Binding(KeyEvent.VK_RIGHT, this);
-		left = new Binding(KeyEvent.VK_LEFT, this);
-		up = new Binding(KeyEvent.VK_UP, this);
-		down = new Binding(KeyEvent.VK_DOWN, this);
+		right = new KeyBinding(KeyEvent.VK_RIGHT, this);
+		left = new KeyBinding(KeyEvent.VK_LEFT, this);
+		up = new KeyBinding(KeyEvent.VK_UP, this);
+		down = new KeyBinding(KeyEvent.VK_DOWN, this);
 	}
 
 	protected void moveX(int x) {
@@ -36,7 +35,7 @@ public class Player extends Entity implements Executable, Remindable<Main> {
 		lvl.hover(Mouse.getY(), Mouse.getY());
 	}
 
-	public void execute(Binding binding) {
+	public void execute(KeyBinding binding) {
 		if (binding == right) {
 			last = right;
 			accelerateX(true);
@@ -101,10 +100,10 @@ public class Player extends Entity implements Executable, Remindable<Main> {
 		//		}
 	}
 
-	public void remind(Main r) {
-		x = r.getWin().getWidth() / 2 - getImg().getWidth() / 2;
-		y = r.getWin().getHeight() / 2 - getImg().getHeight() / 2;
+	public Runnable remind = () -> {
+		x = Main.getWin().getWidth() / 2 - getImg().getWidth() / 2;
+		y = Main.getWin().getHeight() / 2 - getImg().getHeight() / 2;
 		o.println("x: " + x + " y: " + y + " fx:" + footPrint.x + " fy: " + footPrint.y);
-	}
+	};
 
 }

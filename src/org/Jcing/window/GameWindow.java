@@ -17,11 +17,9 @@ import javax.swing.JFrame;
 
 import org.Jcing.controls.InputManager;
 import org.Jcing.controls.Mouse;
-import org.Jcing.job.Job;
 import org.Jcing.main.Main;
-import org.Jcing.main.Remindable;
 
-public class GameWindow extends	Canvas implements WindowListener, ComponentListener, Remindable<Main> {
+public class GameWindow extends	Canvas implements WindowListener, ComponentListener {
 
 	/**
 	 * 
@@ -33,40 +31,47 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	private int lw, lh;
 	private boolean showCreator = false;
 	
-	private Job job;
-	private Main m;
 	InputManager im;
 	
 	private JFrame frame;
 
 	public GameWindow(String title) {
-		m = Main.getMain();
-		im = m.getInputManager();
+		im = Main.getInputManager();
 		frame = new JFrame(title);
 //		setTitle(title);
 		gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		
 		setPreferredSize(new Dimension(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight()));
+		
 		frame.setPreferredSize(new Dimension(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight()));
-		if (m.options().fullscreen) {
+		
+		if (Main.settings().fullscreen) {
 			gd.setFullScreenWindow(frame);
 		}
 		
 		setSize(new Dimension(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight()));
+		
 		lw = getWidth();
 		lh = getHeight();
+		
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.addComponentListener(this);
+		
 		setBackground(new Color(5, 20, 2));
 		setForeground(new Color(220, 220, 220));
-		frame.add(this);
-		frame.pack();
-		frame.setVisible(true);
+		
 		addKeyListener(im);
-		frame.addWindowListener(this);
 		addMouseListener(im);
+		//TODO: mouse / keyboard hooks
 		addMouseListener(new Mouse());
 		addMouseMotionListener(new Mouse());
 		addMouseMotionListener(im);
+		frame.addWindowListener(this);
+
+		frame.add(this);
+		frame.pack();
+		frame.setVisible(true);
+		
 		frame.requestFocus();
 		requestFocus();
 
@@ -84,26 +89,26 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	public void toggleShowCreator() {
 		this.showCreator = !showCreator;
 		if (showCreator) {
-			m.getCreator().setCreatorSize(getSize());
-			addMouseListener(m.getCreator().getComponentListener());
-			addMouseMotionListener(m.getCreator().getComponentListener());
-			addMouseWheelListener(m.getCreator().getComponentListener());
+			Main.getCreator().setCreatorSize(getSize());
+			addMouseListener(Main.getCreator().getComponentListener());
+			addMouseMotionListener(Main.getCreator().getComponentListener());
+			addMouseWheelListener(Main.getCreator().getComponentListener());
 		} else {
-			removeMouseListener(m.getCreator().getComponentListener());
-			removeMouseMotionListener(m.getCreator().getComponentListener());
-			removeMouseWheelListener(m.getCreator().getComponentListener());
+			removeMouseListener(Main.getCreator().getComponentListener());
+			removeMouseMotionListener(Main.getCreator().getComponentListener());
+			removeMouseWheelListener(Main.getCreator().getComponentListener());
 		}
 	}
 
 	public void toggleFullscreen() {
 		// lvl.process();
-		setFullscreen(!m.options().fullscreen);
+		setFullscreen(!Main.settings().fullscreen);
 	}
 
 	public void setFullscreen(boolean fullscreen) {
-		m.options().fullscreen = fullscreen;
+		Main.settings().fullscreen = fullscreen;
 
-		if (m.options().fullscreen) {
+		if (Main.settings().fullscreen) {
 			gd.setFullScreenWindow(frame);
 		} else {
 			gd.setFullScreenWindow(null);
@@ -119,7 +124,7 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 
 	
 	public void render() {
-//		System.out.println("render");
+//		SysteMain.out.println("render");
 		BufferStrategy bs = getBufferStrategy();
 		if(bs == null){
 			createBufferStrategy(3);
@@ -130,12 +135,12 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 		g.setColor(getBackground());
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		m.getGame().getActiveLevel().paint(g);
+		Main.getGame().getActiveLevel().paint(g);
 
-		m.getGame().getActiveLevel().paintMovables(g);
+		Main.getGame().getActiveLevel().paintMovables(g);
 
 		if (showCreator)
-			m.getCreator().paint(g);
+			Main.getCreator().paint(g);
 		
 		g.dispose();
 		bs.show();
@@ -150,10 +155,6 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	private Runnable routine = () -> {
 		render();
 	};
-
-	public void setJob(Job job) {
-		this.job = job;
-	}
 
 //	@Override
 //	public void update(Graphics g) {
@@ -180,7 +181,7 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	}
 
 	public void windowClosing(WindowEvent arg0) {
-		m.finish();
+		Main.finish();
 	}
 
 	public void windowDeactivated(WindowEvent arg0) {
@@ -216,19 +217,19 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	private double xBuffer, yBuffer;
 	
 	public void componentResized(ComponentEvent arg0) {
-		if (!m.options().creatorWindowed && m.getCreator() != null) {
-			m.getCreator().setCreatorSize(getSize());
+		if (!Main.settings().creatorWindowed && Main.getCreator() != null) {
+			Main.getCreator().setCreatorSize(getSize());
 		}
 		xBuffer -= (lw-getWidth())/2.0;
-		m.getGame().getActiveLevel().addX((int)xBuffer);
+		Main.getGame().getActiveLevel().addX((int)xBuffer);
 		xBuffer -= (int)xBuffer;
 		
 		yBuffer -= (lh-getHeight())/2.0;
-		m.getGame().getActiveLevel().addY((int)yBuffer);
+		Main.getGame().getActiveLevel().addY((int)yBuffer);
 		yBuffer -= (int)yBuffer;
 		lw = getWidth();
 		lh = getHeight();
-		m.getGame().getActiveLevel().setSize(getSize());
+		Main.getGame().getActiveLevel().setSize(getSize());
 	}
 
 	public void componentShown(ComponentEvent arg0) {
@@ -236,13 +237,8 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 
 	}
 
-	public Job getJob() {
-		return job;
-	}
-
-	public void remind(Main r) {
-		// TODO Auto-generated method stub
-		
+	public Runnable getJob() {
+		return routine;
 	}
 
 }

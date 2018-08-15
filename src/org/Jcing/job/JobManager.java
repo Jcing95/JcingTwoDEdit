@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class JobManager {
 
 	private ArrayList<Job> jobs;
+	
+	//TODO: rework completely.. e.g. Clock + task
 
 	/**
 	 * A JobManager manages a bunch of Jobs. it can add Jobs to its list and

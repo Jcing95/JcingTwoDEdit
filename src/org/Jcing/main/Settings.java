@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import org.Jcing.files.FileLoader;
 
-public class Options implements Serializable {
+public class Settings implements Serializable {
 
 	/**
 	 * serial Version UID for saving.
@@ -18,21 +18,21 @@ public class Options implements Serializable {
 		return path;
 	}
 
-	public Options(String path) {
+	public Settings(String path) {
 		this.path = path;
 	}
 
-	public static Options load(String path) {
+	public static Settings load(String path) {
 		if (new File(path).exists()) {
 			if (FileLoader.LoadFile(path) != null) {
-				return (Options) FileLoader.LoadFile(path);
+				return (Settings) FileLoader.LoadFile(path);
 			}
 			if (FileLoader.LoadFileInJar(path) != null) {
-				return (Options) FileLoader.LoadFileInJar(path);
+				return (Settings) FileLoader.LoadFileInJar(path);
 			} else
-				return new Options(path);
+				return new Settings(path);
 		} else
-			return new Options(path);
+			return new Settings(path);
 	}
 
 	public void save() {

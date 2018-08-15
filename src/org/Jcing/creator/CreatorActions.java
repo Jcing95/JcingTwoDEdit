@@ -4,50 +4,45 @@ import org.Jcing.GUI.Clickable;
 import org.Jcing.GUI.ClickableManager;
 import org.Jcing.main.Main;
 
-public class CreatorActions implements ClickableManager{
-	
-	Creator c;
-	Main m;
-	
-	public CreatorActions(Creator creator, Main main){
-		c = creator;
-		m = main;
+public class CreatorActions implements ClickableManager {
+
+	public CreatorActions() {
+
 	}
 
 	public void actionHappened(Clickable e) {
-		if(e == c.windowCreator){
-			c.toggleWindow();
+		if (e == Main.getCreator().windowCreator) {
+			Main.getCreator().toggleWindow();
 		}
-		if(e == c.addChunks){
-			m.getGame().getActiveLevel().toggleAddChunks();
-			if(c.addChunks.isActive()){
-				c.deleteChunks.setActive(false);
+		if (e == Main.getCreator().addChunks) {
+			Main.getGame().getActiveLevel().toggleAddChunks();
+			if (Main.getCreator().addChunks.isActive()) {
+				Main.getCreator().deleteChunks.setActive(false);
 			}
 		}
-		if(e == c.deleteChunks){
-			m.getGame().getActiveLevel().toggleDeleteChunks();
-			if(c.deleteChunks.isActive()){
-				c.addChunks.setActive(false);
+		if (e == Main.getCreator().deleteChunks) {
+			Main.getGame().getActiveLevel().toggleDeleteChunks();
+			if (Main.getCreator().deleteChunks.isActive()) {
+				Main.getCreator().addChunks.setActive(false);
 			}
 		}
-		if(e == c.showGrid){
-			m.getGame().getActiveLevel().toggleShowGrid();
-			m.getGame().getActiveLevel().reload();
+		if (e == Main.getCreator().showGrid) {
+			Main.getGame().getActiveLevel().toggleShowGrid();
+			Main.getGame().getActiveLevel().reload();
 		}
-		if(e == c.showCollision){
-			m.getGame().getActiveLevel().toggleShowCollision();
-			m.getGame().getActiveLevel().reload();
+		if (e == Main.getCreator().showCollision) {
+			Main.getGame().getActiveLevel().toggleShowCollision();
+			Main.getGame().getActiveLevel().reload();
 		}
-		if(e == c.addTileset){
-			c.addTileSet();
+		if (e == Main.getCreator().addTileset) {
+			Main.getCreator().addTileSet();
 		}
-		if(e == c.entityFootprint){
-			m.options().showEntityFootprints = !m.options().showEntityFootprints;
+		if (e == Main.getCreator().entityFootprint) {
+			Main.settings().showEntityFootprints = !Main.settings().showEntityFootprints;
 		}
-		if(e == c.entitySize){
-			m.options().showEntitySizes = !m.options().showEntitySizes;
+		if (e == Main.getCreator().entitySize) {
+			Main.settings().showEntitySizes = !Main.settings().showEntitySizes;
 		}
 	}
-	
-	
+
 }

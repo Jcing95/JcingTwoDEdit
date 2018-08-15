@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import org.Jcing.graphics.JCImage;
 
-public class JCButton extends Clickable {
+public class Button extends Clickable {
 
 	private String label;
 	private JCImage normalLeft, hoverLeft, clickLeft;
@@ -19,7 +19,7 @@ public class JCButton extends Clickable {
 
 	private int textX;
 
-	public JCButton(int xPos, int yPos, String label) {
+	public Button(int xPos, int yPos, String label) {
 		super(xPos, yPos);
 		hovered = false;
 		clicked = false;

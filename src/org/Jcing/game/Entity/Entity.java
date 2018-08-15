@@ -180,13 +180,13 @@ public class Entity implements Paintable {
 	public void paint(Graphics g) {
 		g.drawImage(getImg(), x + Main.getMain().getGame().getActiveLevel().getxOffset(),
 				y + Main.getMain().getGame().getActiveLevel().getyOffset(), null);
-		if (Main.getMain().options().showEntityFootprints) {
+		if (Main.getMain().settings().showEntityFootprints) {
 			g.setColor(Level.COLLISION);
 			g.drawRect(x + Main.getMain().getGame().getActiveLevel().getxOffset() + footPrint.x,
 					y + Main.getMain().getGame().getActiveLevel().getyOffset() + footPrint.y, footPrint.width,
 					footPrint.height);
 		}
-		if (Main.getMain().options().showEntitySizes) {
+		if (Main.getMain().settings().showEntitySizes) {
 			g.setColor(Level.HOVER);
 			g.drawRect(x + Main.getMain().getGame().getActiveLevel().getxOffset(),
 					y + Main.getMain().getGame().getActiveLevel().getyOffset(), img.getImg().getWidth(),

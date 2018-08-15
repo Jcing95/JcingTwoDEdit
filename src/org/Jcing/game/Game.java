@@ -4,21 +4,17 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
+import org.Jcing.controls.KeyBinding;
 import org.Jcing.creator.rectanglecreator.RectangleCreator;
 import org.Jcing.game.Entity.Entity;
 import org.Jcing.game.Entity.PacMan;
 import org.Jcing.game.Entity.Player;
 import org.Jcing.game.world.Level;
 import org.Jcing.graphics.JCImage;
-import org.Jcing.job.Job;
 import org.Jcing.main.Main;
-import org.Jcing.main.Remindable;
 
-public class Game implements Executable, Remindable<Main> {
-
-	private Job job;
+public class Game implements Executable {
 
 	// private Level lvl;
 	private JCImage test;
@@ -27,20 +23,17 @@ public class Game implements Executable, Remindable<Main> {
 	public final static String tilesetPath = "gfx/tilesets";
 	public final static String levelPath = "levels";
 
-	private Binding oneBinding;
+	private KeyBinding oneBinding;
 	private ArrayList<Level> levels;
-	private Main main;
-
 	private RectangleCreator rectcr;
 	
 	
 	private Entity testent;
 
-	public Game(Main main) {
-		this.main = main;
+	public Game() {
 		levels = new ArrayList<Level>();
 		levels.add(new Level("main", this));
-		oneBinding = new Binding(KeyEvent.VK_1,this,true);
+		oneBinding = new KeyBinding(KeyEvent.VK_1,this,true);
 //		main.getInputManager().addBinding(oneBinding);
 		// lvl = new Level("main", this);
 		test = new JCImage("gfx/TravelerSF/up.png",true);
@@ -55,8 +48,8 @@ public class Game implements Executable, Remindable<Main> {
 		test.addAnimation("gfx/TravelerSF/right");
 		
 		player = new Player(test, levels.get(0));
-		Main.mainInitialized.addRemindable(player);
-		Main.mainInitialized.addRemindable(this);
+		Main.mainInitialized.addRemindable(player.remind);
+		Main.mainInitialized.addRemindable(remind);
 		
 		levels.get(0).setPlayer(player);
 		testent =new PacMan(1000,400,levels.get(0));
@@ -76,13 +69,9 @@ public class Game implements Executable, Remindable<Main> {
 		return null;
 	}
 
-	public Main getMain() {
-		return main;
-	}
-
 	public Dimension getCanvas() {
 		// TODO: win.getCanvas();
-		return main.getWin().getSize();
+		return Main.getWin().getSize();
 	}
 
 	public Level getActiveLevel() {
@@ -99,7 +88,7 @@ public class Game implements Executable, Remindable<Main> {
 		getActiveLevel().save();
 	}
 
-	public void execute(Binding binding) {
+	public void execute(KeyBinding binding) {
 		// TODO Auto-generated method stub
 		if (binding == oneBinding) {
 			rectcr = new RectangleCreator("TEST");
@@ -107,10 +96,10 @@ public class Game implements Executable, Remindable<Main> {
 		}
 	}
 
-	public void remind(Main r) {
+	public Runnable remind = () -> {
 		testent.accelerateX(true);
-		getActiveLevel().setSize(main.getWin().getSize());
-	}
+		getActiveLevel().setSize(Main.getWin().getSize());
+	};
 
 	public Runnable getJob() {
 		return routine;

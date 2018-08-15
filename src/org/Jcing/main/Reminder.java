@@ -1,27 +1,22 @@
 package org.Jcing.main;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Reminder<Reminding> {
+public class Reminder {
 	
-	LinkedList<Remindable<Reminding>> toRemind;
-	Reminding r;
+	LinkedList<Runnable> toRemind;
 	
-	public Reminder(Reminding r){
-		this.r = r;
-		toRemind = new LinkedList<Remindable<Reminding>>();
+	public Reminder(){
+		toRemind = new LinkedList<>();
 	}
 	
-	public void addRemindable(Remindable<Reminding> toRemind){
+	public void addRemindable(Runnable toRemind){
 		this.toRemind.add(toRemind);
 	}
 	
 	public void remind(){
-		Iterator<Remindable<Reminding>> i = toRemind.iterator();
-		while(i.hasNext()){
-			i.next().remind(r);
-		}
+		for(Runnable r : toRemind)
+			r.run();
 	}
 	
 	

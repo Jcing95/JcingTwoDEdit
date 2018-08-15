@@ -120,7 +120,7 @@ public class Chunk implements Serializable {
 				// hovered = true;
 				o.println("click at: " + this.x + " " + this.y + "img " + img.getId());
 				if (lvl.editing() && !lvl.addingChunks()) {
-					if (Main.getMain().options().replaceTile) {
+					if (Main.getMain().settings().replaceTile) {
 						if (!rightclick) {
 							if (!animated && img.get(lvl.getImgCollector()).isAnimated())
 								animated = true;

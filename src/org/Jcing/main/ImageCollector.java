@@ -6,6 +6,8 @@ import org.Jcing.graphics.JCImage;
 
 public class ImageCollector {
 
+	
+	//TODO: hashmap? general revision of ImageCollector.
 	private ArrayList<ArrayList<JCImage>> imgs = new ArrayList<ArrayList<JCImage>>();
 
 	public JCImage get(int type, int imgID) {

@@ -81,11 +81,11 @@ public class Level {
 		mincollisionSize = DEFAULTMINCOLLISIONSIZE;
 		offset = new Point(0, 0);
 		entities = new ArrayList<Entity>();
-		showCollision = game.getMain().options().showCollision;
-		showGrid = game.getMain().options().showGrid;
+		showCollision = Main.settings().showCollision;
+		showGrid = Main.settings().showGrid;
 		loadedChunks = new ArrayList<Chunk>();
 		//		canvas = new BufferedImage();
-		//		canvas.setSize(game.getMain().getWin().getSize());
+		//		canvas.setSize(Main.getWin().getSize());
 	}
 
 	private void initImageCollector() {
@@ -238,8 +238,8 @@ public class Level {
 		
 		o.println("Click at Chunk " + (x/(Chunk.WIDTH*Tile.SIZE)) + " " + (y/(Chunk.WIDTH*Tile.SIZE)));
 		if(getChunk(x/(Chunk.WIDTH*Tile.SIZE),y/(Chunk.HEIGHT*Tile.SIZE)) != null)
-		getChunk(x/(Chunk.WIDTH*Tile.SIZE),y/(Chunk.HEIGHT*Tile.SIZE)).click(x, y, game.getMain().getCreator().getSelectedImage(), this, rightClick,
-				game.getMain().getCreator().collision(), drag);
+		getChunk(x/(Chunk.WIDTH*Tile.SIZE),y/(Chunk.HEIGHT*Tile.SIZE)).click(x, y, Main.getCreator().getSelectedImage(), this, rightClick,
+				Main.getCreator().collision(), drag);
 //		//TODO: refractor calculate Chunk directly
 //		Iterator<Integer> itx = ChunkIterator();
 //		while (itx.hasNext()) {
@@ -553,8 +553,8 @@ public class Level {
 	//	}
 
 	public void toggleShowCollision() {
-		game.getMain().options().showCollision = !game.getMain().options().showCollision;
-		showCollision = game.getMain().options().showCollision;
+		Main.settings().showCollision = !Main.settings().showCollision;
+		showCollision = Main.settings().showCollision;
 	}
 
 	public void toggleDeleteChunks() {
@@ -651,8 +651,8 @@ public class Level {
 	}
 
 	public void toggleShowGrid() {
-		game.getMain().options().showGrid = !game.getMain().options().showGrid;
-		showGrid = game.getMain().options().showGrid;
+		Main.settings().showGrid = !Main.settings().showGrid;
+		showGrid = Main.settings().showGrid;
 	}
 
 	public ImageCollector getImgCollector() {

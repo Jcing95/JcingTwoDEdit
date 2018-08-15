@@ -16,7 +16,7 @@ import org.Jcing.job.Job;
  */
 public class BindingManager {
 
-	private static HashMap<Integer, Binding> bindings = new HashMap<Integer, Binding>();
+	private static HashMap<Integer, KeyBinding> bindings = new HashMap<Integer, KeyBinding>();
 	private Job job;
 
 	/**
@@ -26,7 +26,7 @@ public class BindingManager {
 	 *            is the tick-frequency.
 	 */
 	public BindingManager(int TPS) {
-		bindings = new HashMap<Integer, Binding>();
+		bindings = new HashMap<Integer, KeyBinding>();
 		job = new Job(routine, TPS, "Binding Manager");
 		job.start();
 	}
@@ -38,16 +38,16 @@ public class BindingManager {
 	 * @param binding
 	 *            binding to add.
 	 */
-	public synchronized void addBinding(Binding binding) {
+	public synchronized void addBinding(KeyBinding binding) {
 		bindings.put(binding.getKeyCode(), binding);
 		job.pause(false);
 	}
 
-	public Binding getBinding(int keyCode) {
+	public KeyBinding getBinding(int keyCode) {
 		return bindings.get(keyCode);
 	}
 
-	public synchronized void removeBinding(Binding binding) {
+	public synchronized void removeBinding(KeyBinding binding) {
 		bindings.remove(binding.getKeyCode());
 	}
 

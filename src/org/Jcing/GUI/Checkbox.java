@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import org.Jcing.graphics.JCImage;
 
-public class JCCheckbox extends Clickable {
+public class Checkbox extends Clickable {
 
 	private boolean active;
 	private static JCImage checked = new JCImage("gfx/CheckBox/CheckBoxActive.png"),
@@ -20,7 +20,7 @@ public class JCCheckbox extends Clickable {
 		this.active = active;
 	}
 
-	public JCCheckbox(int x, int y) {
+	public Checkbox(int x, int y) {
 		super(x, y);
 		active = false;
 

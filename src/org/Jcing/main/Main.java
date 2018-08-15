@@ -2,9 +2,9 @@ package org.Jcing.main;
 
 import java.awt.event.KeyEvent;
 
-import org.Jcing.controls.Binding;
 import org.Jcing.controls.Executable;
 import org.Jcing.controls.InputManager;
+import org.Jcing.controls.KeyBinding;
 import org.Jcing.creator.Creator;
 import org.Jcing.game.Game;
 import org.Jcing.job.JobManager;
@@ -12,46 +12,53 @@ import org.Jcing.window.GameWindow;
 
 public class Main implements Executable {
 
+	private static final String TITLE = "JCING Game";
+
 	private static Main m;
 
-	private Game game;
-	private GameWindow win;
+	private static Game game;
+	private static GameWindow win;
 
-	private Creator creator;
+	private static Creator creator;
 
-	private JobManager jm;
-	private InputManager im;
+	private static JobManager jm;
+	private static InputManager im;
 
-	private Options options;
+	private static Settings options;
 
-	private final String TITLE = "JCING Game";
+	private static ImageCollector mainImageCollector;
 	
-	private ImageCollector mainImageCollector;
+	
+	//TODO: rework reminder as simple callback
+	public static Reminder mainInitialized;
 
-	private Binding exit;
+	private KeyBinding exit;
 	
-	public static Reminder<Main> mainInitialized;
 	
-	public Creator getCreator() {
-		return creator;
+	public static void main(String[] args) {
+		m = new Main();
+		m.init();
 	}
-
+	
 	public Main() {
 	}
 
 	public void init() {
-		mainInitialized = new Reminder<Main>(this);
-		options = Options.load("options.Jcop");
+		mainInitialized = new Reminder();
+		options = Settings.load("options.Jcop");
 
 		im = new InputManager();
 		
 		mainImageCollector = new ImageCollector();
 		
-		game = new Game(this);
+		game = new Game();
+		
+		//TODO: load in game constructor?
 		game.getActiveLevel().load();
+		
 		win = new GameWindow(TITLE);
 
-		creator = new Creator(game, win);
+		creator = new Creator();
 		
 		jm = new JobManager();
 		jm.addJob(game.getJob(), 20, "mainGame");
@@ -59,18 +66,20 @@ public class Main implements Executable {
 		jm.addJob(creator.getJob(), 60, "gameCreator");
 		jm.startJobs();
 		
-		exit = new Binding(KeyEvent.VK_ESCAPE, this);
+		exit = new KeyBinding(KeyEvent.VK_ESCAPE, this);
 //		im.addBinding(exit);
-		
 //		ImageManager im = new ImageManager("gfx/tiles");
+		
 		mainInitialized.remind();
 	}
 	
-	public Game getGame(){
-		return game;
+	public void execute(KeyBinding binding) {
+		if (binding == exit) {
+			finish();
+		}
 	}
 	
-	public void finish() {
+	public static void finish() {
 		game.finish();
 		win.finish();
 		creator.finish();
@@ -81,39 +90,36 @@ public class Main implements Executable {
 		}
 		System.exit(1000);
 	}
+	
+	
+	//static getters
+	
+	public static Game getGame(){
+		return game;
+	}
+	
+	public static Creator getCreator() {
+		return creator;
+	}
 
-	public Options options() {
+	public static Settings settings() {
 		return options;
 	}
 
-	public InputManager getInputManager() {
+	public static InputManager getInputManager() {
 		return im;
-	}
-
-	public static void main(String[] args) {
-		m = new Main();
-		m.init();
 	}
 
 	public static Main getMain() {
 		return m;
 	}
 
-	public GameWindow getWin() {
+	public static GameWindow getWin() {
 		return win;
 	}
 
-	public void execute(Binding binding) {
-		if (binding == exit) {
-			this.finish();
-		}
-	}
-
-	public ImageCollector getMainImageCollector() {
+	public static ImageCollector getMainImageCollector() {
 		return mainImageCollector;
 	}
-
-	public void setMainImageCollector(ImageCollector mainImageCollector) {
-		this.mainImageCollector = mainImageCollector;
-	}
+	
 }
