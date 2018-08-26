@@ -3,7 +3,7 @@ package org.Jcing.controls;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.Jcing.job.Job;
+import de.Jcing.tasks.Task;
 
 /**
  * <b>BindingManager</b> is a static Object in InputManager. It can also be used
@@ -17,7 +17,7 @@ import org.Jcing.job.Job;
 public class BindingManager {
 
 	private static HashMap<Integer, KeyBinding> bindings = new HashMap<Integer, KeyBinding>();
-	private Job job;
+	private Task task;
 
 	/**
 	 * Initializes a <b>BindingManager</b> with a tick-frequency of <b>TPS</b>
@@ -27,8 +27,8 @@ public class BindingManager {
 	 */
 	public BindingManager(int TPS) {
 		bindings = new HashMap<Integer, KeyBinding>();
-		job = new Job(routine, TPS, "Binding Manager");
-		job.start();
+		task = new Task(routine, TPS);
+		task.start();
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class BindingManager {
 	 */
 	public synchronized void addBinding(KeyBinding binding) {
 		bindings.put(binding.getKeyCode(), binding);
-		job.pause(false);
+		task.pause(false);
 	}
 
 	public KeyBinding getBinding(int keyCode) {
@@ -73,7 +73,7 @@ public class BindingManager {
 				}
 			}
 		} else {
-			job.pause(true);
+			task.pause(true);
 		}
 	};
 
@@ -84,7 +84,7 @@ public class BindingManager {
 		return bindings.keySet().iterator();
 	}
 
-	public void setJob(Job job) {
-		this.job = job;
+	public void setJob(Task job) {
+		this.task = job;
 	}
 }

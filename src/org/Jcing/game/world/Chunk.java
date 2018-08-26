@@ -3,15 +3,16 @@ package org.Jcing.game.world;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
 import org.Jcing.Essentials.OutputStreamController;
 import org.Jcing.graphics.JCImage;
-import org.Jcing.job.Job;
 import org.Jcing.main.CollectedImage;
 import org.Jcing.main.Main;
+
+import de.Jcing.tasks.Task;
+import de.Jcing.util.Point;
 
 public class Chunk implements Serializable {
 
@@ -120,7 +121,7 @@ public class Chunk implements Serializable {
 				// hovered = true;
 				o.println("click at: " + this.x + " " + this.y + "img " + img.getId());
 				if (lvl.editing() && !lvl.addingChunks()) {
-					if (Main.getMain().settings().replaceTile) {
+					if (Main.settings().replaceTile) {
 						if (!rightclick) {
 							if (!animated && img.get(lvl.getImgCollector()).isAnimated())
 								animated = true;
@@ -305,7 +306,7 @@ public class Chunk implements Serializable {
 
 	}
 
-	public void setJob(Job job) {
+	public void setJob(Task job) {
 		// TODO Auto-generated method stub
 
 	}

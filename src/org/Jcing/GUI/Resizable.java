@@ -1,4 +1,4 @@
-package org.Jcing.graphics;
+package org.Jcing.GUI;
 
 public interface Resizable {
 	

@@ -13,8 +13,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 
-import org.Jcing.job.Job;
 import org.Jcing.window.Window;
+
+import de.Jcing.tasks.Task;
 
 public class RectangleCreator extends Window
 		implements KeyListener, MouseListener, MouseMotionListener, WindowListener {
@@ -41,12 +42,12 @@ public class RectangleCreator extends Window
 		//setVisible(true);
 		requestFocus();
 		setRect(def);
-		job = new Job(routine, 10, "RectangleCreator");
+		job = new Task(routine, 10);
 		job.start();
 		initialized = true;
 	}
 
-	private Job job;
+	private Task job;
 	private Point p1, p2, p3, p4;
 	private boolean close = false;
 	public static final int POINTSIZE = 10;
@@ -180,7 +181,7 @@ public class RectangleCreator extends Window
 		//		job.start();
 	}
 
-	public void setJob(Job job) {
+	public void setJob(Task job) {
 		// TODO Auto-generated method stub
 
 	}

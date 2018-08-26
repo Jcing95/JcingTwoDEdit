@@ -7,15 +7,15 @@ import java.util.ArrayList;
 
 import org.Jcing.files.FileLoader;
 import org.Jcing.files.FolderLoader;
-import org.Jcing.job.Job;
+
+import de.Jcing.tasks.Task;
 
 public class JCImage {
 
 	private ArrayList<ArrayList<BufferedImage>> imgs;
-	//	private ArrayList<ArrayList<int[][]>> pixels;
 	private int index, anim;
 	private int fps;
-	private Job job;
+	private Task task;
 	private boolean animated;
 
 	public static final int DEFAULTFPS = 12;
@@ -24,8 +24,6 @@ public class JCImage {
 		imgs = new ArrayList<ArrayList<BufferedImage>>();
 		imgs.add(new ArrayList<BufferedImage>());
 		imgs.get(0).add(FileLoader.LoadImage(path));
-		//		pixels = new ArrayList<ArrayList<int[][]>>();
-		//		pixels.add(new ArrayList<int[][]>());
 		index = 0;
 		anim = 0;
 		animated = false;
@@ -70,12 +68,12 @@ public class JCImage {
 			index = 0;
 			anim = 0;
 			fps = DEFAULTFPS;
-			job = new Job(routine, fps, "Animation " + path);
+			task = new Task(routine, fps);
 			for (int i = 0; i < loaded.size(); i++) {
 				imgs.get(0).add(loaded.get(i).getImg());
 			}
 			animated = true;
-			job.start();
+			task.start();
 		} else {
 			new JCImage(path);
 		}
@@ -85,9 +83,9 @@ public class JCImage {
 		if (fps == 0) {
 			fps = DEFAULTFPS;
 		}
-		if(job == null){
-			job = new Job(routine, fps, "Animation " + path);
-			job.start();
+		if(task == null){
+			task = new Task(routine, fps);
+			task.start();
 		}
 		//		imgs.add(FolderLoader.numericLoad(path));
 		ArrayList<JCImage> loaded = FolderLoader.numericLoad(path);
@@ -99,11 +97,11 @@ public class JCImage {
 	}
 
 	public void start() {
-		job.start();
+		task.start();
 	}
 
 	public void pause() {
-		job.pause();
+		task.pause(true);
 	}
 
 	public BufferedImage getImg() {
@@ -133,7 +131,7 @@ public class JCImage {
 
 	public void setFps(int fps) {
 		this.fps = fps;
-		job.setTps(fps);
+		task.setTps(fps);
 	}
 
 	public void setAnimation(int anim) {
@@ -160,8 +158,8 @@ public class JCImage {
 		//		index %= imgs.get(anim).size();
 	};
 
-	public void setJob(Job job) {
-		this.job = job;
+	public void setJob(Task job) {
+		this.task = job;
 	}
 
 }

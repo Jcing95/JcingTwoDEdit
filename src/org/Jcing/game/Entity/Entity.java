@@ -9,8 +9,9 @@ import org.Jcing.GUI.Paintable;
 import org.Jcing.game.world.Level;
 import org.Jcing.game.world.Tile;
 import org.Jcing.graphics.JCImage;
-import org.Jcing.job.Job;
 import org.Jcing.main.Main;
+
+import de.Jcing.tasks.Task;
 
 public class Entity implements Paintable {
 
@@ -27,7 +28,7 @@ public class Entity implements Paintable {
 
 	protected int x, y, w, h;
 
-	protected Job job;
+	protected Task job;
 
 	protected double movementSpeedX = 0.0, movementSpeedY = 0.0;
 	protected double xApproacher = 0.0, yApproacher = 0.0;
@@ -53,7 +54,7 @@ public class Entity implements Paintable {
 		footPrint = new Rectangle(0, 16, 24, 16);
 		this.lvl = lvl;
 		tiles = new ArrayList<Tile>();
-		job = new Job(routine, MPS, "Player Movement");
+		job = new Task(routine, MPS);
 		job.start();
 	}
 	
@@ -178,18 +179,18 @@ public class Entity implements Paintable {
 	}
 
 	public void paint(Graphics g) {
-		g.drawImage(getImg(), x + Main.getMain().getGame().getActiveLevel().getxOffset(),
-				y + Main.getMain().getGame().getActiveLevel().getyOffset(), null);
-		if (Main.getMain().settings().showEntityFootprints) {
+		g.drawImage(getImg(), x + Main.getGame().getActiveLevel().getxOffset(),
+				y + Main.getGame().getActiveLevel().getyOffset(), null);
+		if (Main.settings().showEntityFootprints) {
 			g.setColor(Level.COLLISION);
-			g.drawRect(x + Main.getMain().getGame().getActiveLevel().getxOffset() + footPrint.x,
-					y + Main.getMain().getGame().getActiveLevel().getyOffset() + footPrint.y, footPrint.width,
+			g.drawRect(x + Main.getGame().getActiveLevel().getxOffset() + footPrint.x,
+					y + Main.getGame().getActiveLevel().getyOffset() + footPrint.y, footPrint.width,
 					footPrint.height);
 		}
-		if (Main.getMain().settings().showEntitySizes) {
+		if (Main.settings().showEntitySizes) {
 			g.setColor(Level.HOVER);
-			g.drawRect(x + Main.getMain().getGame().getActiveLevel().getxOffset(),
-					y + Main.getMain().getGame().getActiveLevel().getyOffset(), img.getImg().getWidth(),
+			g.drawRect(x + Main.getGame().getActiveLevel().getxOffset(),
+					y + Main.getGame().getActiveLevel().getyOffset(), img.getImg().getWidth(),
 					img.getImg().getHeight());
 		}
 	}
@@ -236,7 +237,7 @@ public class Entity implements Paintable {
 		}
 	};
 
-	public void setJob(Job job) {
+	public void setJob(Task job) {
 		this.job = job;
 	}
 

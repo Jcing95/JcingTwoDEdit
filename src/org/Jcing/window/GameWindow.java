@@ -4,20 +4,24 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
 import org.Jcing.controls.InputManager;
 import org.Jcing.controls.Mouse;
 import org.Jcing.main.Main;
+
+import de.Jcing.tasks.Task;
 
 public class GameWindow extends	Canvas implements WindowListener, ComponentListener {
 
@@ -26,14 +30,19 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 	 */
 	private static final long serialVersionUID = 9147088231335201118L;
 
+	public static final int PIXEL_SIZE = 3;
+	
 	private GraphicsDevice gd;
 
-	private int lw, lh;
 	private boolean showCreator = false;
+	
+	
 	
 	InputManager im;
 	
 	private JFrame frame;
+	
+	Task task;
 
 	public GameWindow(String title) {
 		im = Main.getInputManager();
@@ -50,9 +59,6 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 		}
 		
 		setSize(new Dimension(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight()));
-		
-		lw = getWidth();
-		lh = getHeight();
 		
 		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.addComponentListener(this);
@@ -74,6 +80,8 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 		
 		frame.requestFocus();
 		requestFocus();
+		
+		task = new Task(routine, 120);
 
 		// lvl.process();
 	}
@@ -107,68 +115,61 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 
 	public void setFullscreen(boolean fullscreen) {
 		Main.settings().fullscreen = fullscreen;
-
 		if (Main.settings().fullscreen) {
 			gd.setFullScreenWindow(frame);
 		} else {
 			gd.setFullScreenWindow(null);
-
 		}
 	}
 
 	public void finish() {
-//		routine.finish();
 		this.setVisible(false);
 		this.setEnabled(false);
 	}
 
 	
+	public int getCanvasWidth() {
+		return (int)(getWidth()/PIXEL_SIZE);
+	}
+	
+	public int getCanvasHeight() {
+		return (int)(getHeight()/PIXEL_SIZE);
+	}
+	
 	public void render() {
-//		SysteMain.out.println("render");
+
 		BufferStrategy bs = getBufferStrategy();
+		
 		if(bs == null){
-			createBufferStrategy(3);
+			createBufferStrategy(2);
 			return;
 		}		
-		Graphics g = bs.getDrawGraphics();
 		
-		g.setColor(getBackground());
-		g.fillRect(0, 0, getWidth(), getHeight());
+		//draw everything on buffer for later scaling.
+		BufferedImage buffer = new BufferedImage(getCanvasWidth(), getCanvasHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = (Graphics2D)buffer.getGraphics();
+		Main.getGame().getActiveLevel().draw(g);
+		Main.getGame().getActiveLevel().drawEntities(g);
+		g.dispose();
 		
-		Main.getGame().getActiveLevel().paint(g);
-
-		Main.getGame().getActiveLevel().paintMovables(g);
-
+		g = (Graphics2D) bs.getDrawGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+		g.drawImage(buffer, 0, 0, getWidth(), getHeight(), null);
+		
 		if (showCreator)
 			Main.getCreator().paint(g);
 		
 		g.dispose();
 		bs.show();
 	}
-	
-//	@Override
-//	public void paint(Graphics gr) {
-//		render();
-//		
-//	}
 
 	private Runnable routine = () -> {
 		render();
 	};
 
-//	@Override
-//	public void update(Graphics g) {
-//		if (dbi == null || dbi.getWidth(this) != getWidth() || dbi.getHeight(this) != getHeight()) {
-//			dbi = createImage(getWidth(), getHeight());
-//			dbg = dbi.getGraphics();
-//		}
-//		dbg.setColor(getBackground());
-//		dbg.fillRect(0, 0, getWidth(), getHeight());
-//
-//		dbg.setColor(getForeground());
-//		paint(dbg);
-//		g.drawImage(dbi, 0, 0, this);
-//	}
 
 	public void windowActivated(WindowEvent arg0) {
 		// TODO Auto-generated method stub
@@ -214,21 +215,17 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 
 	}
 	
-	private double xBuffer, yBuffer;
-	
 	public void componentResized(ComponentEvent arg0) {
 		if (!Main.settings().creatorWindowed && Main.getCreator() != null) {
 			Main.getCreator().setCreatorSize(getSize());
 		}
-		xBuffer -= (lw-getWidth())/2.0;
-		Main.getGame().getActiveLevel().addX((int)xBuffer);
-		xBuffer -= (int)xBuffer;
-		
-		yBuffer -= (lh-getHeight())/2.0;
-		Main.getGame().getActiveLevel().addY((int)yBuffer);
-		yBuffer -= (int)yBuffer;
-		lw = getWidth();
-		lh = getHeight();
+		//TODO: this is crazy
+//		xBuffer -= (lw-getWidth())/2.0;
+//		Main.getGame().getActiveLevel().addX((int)xBuffer);
+//		xBuffer -= (int)xBuffer;
+//		yBuffer -= (lh-getHeight())/2.0;
+//		Main.getGame().getActiveLevel().addY((int)yBuffer);
+//		yBuffer -= (int)yBuffer;
 		Main.getGame().getActiveLevel().setSize(getSize());
 	}
 
@@ -237,8 +234,15 @@ public class GameWindow extends	Canvas implements WindowListener, ComponentListe
 
 	}
 
-	public Runnable getJob() {
-		return routine;
+	public int getFPS() {
+		return task.tps;
 	}
 
+	public int getCenterX() {
+		return (int)(getWidth()/PIXEL_SIZE/2.0);
+	}
+	
+	public int getCenterY() {
+		return (int)(getHeight()/PIXEL_SIZE/2.0);
+	}
 }

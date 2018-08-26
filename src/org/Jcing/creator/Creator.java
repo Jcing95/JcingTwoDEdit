@@ -29,6 +29,7 @@ import org.Jcing.GUI.JComponentListener;
 import org.Jcing.GUI.Line;
 import org.Jcing.GUI.Paintable;
 import org.Jcing.GUI.Pane;
+import org.Jcing.GUI.Resizable;
 import org.Jcing.GUI.ScrollPane;
 import org.Jcing.GUI.Selectable;
 import org.Jcing.GUI.Selector;
@@ -36,14 +37,14 @@ import org.Jcing.controls.Executable;
 import org.Jcing.controls.KeyBinding;
 import org.Jcing.game.world.Level;
 import org.Jcing.game.world.Tile;
-import org.Jcing.graphics.Resizable;
-import org.Jcing.job.Job;
 import org.Jcing.main.CollectedImage;
 import org.Jcing.main.Main;
 
+import de.Jcing.tasks.Task;
+
 public class Creator implements Executable, Selector {
 
-	private Job job;
+	private Task task;
 	
 	private DecimalFormat df = new DecimalFormat("#.###");
 	
@@ -219,7 +220,10 @@ public class Creator implements Executable, Selector {
 		addTilesetPane.add(addTileset);
 
 		// add(new Line(leftPane.getWidth(),0,0,leftPane.getHeight()));
-
+		
+		new Task(routine, 60);
+		
+		
 		paint(img.getGraphics());
 	}
 
@@ -281,6 +285,8 @@ public class Creator implements Executable, Selector {
 
 		int rowlength = (tilePane.getWidth() - 10) / (Tile.SIZE + 10);
 		int y = tilePane.getyOffset() + 10;
+		System.out.println(Main.getGame().getActiveLevel().getTileImgStartIndex());
+		System.out.println(Main.getGame().getActiveLevel().getImgCollector());
 		for (int t = Main.getGame().getActiveLevel().getTileImgStartIndex(); t < Main.getGame().getActiveLevel().getImgCollector().size(); t++) {
 			for (int i = 0; i < (double) Main.getGame().getActiveLevel().getImgCollector().size(t) / rowlength; i++) {
 				for (int j = 0; j < rowlength; j++) {
@@ -317,11 +323,11 @@ public class Creator implements Executable, Selector {
 			Main.settings().creatorWindowed = false;
 			setCreatorSize(Main.getWin().getSize());
 			frame.setVisible(false);
-			job.pause(true);
+			task.pause(true);
 		} else {
 			if (Main.getWin().creatorShown())
 				Main.getWin().toggleShowCreator();
-			job.pause(false);
+			task.pause(false);
 			setCreatorSize(frame.getSize());
 			frame.setVisible(true);
 
@@ -361,8 +367,8 @@ public class Creator implements Executable, Selector {
 		}
 
 		g.setColor(foreground);
-		if (Main.getWin().getJob() != null) //TODO: calculate TPS for Jobs.
-			g.drawString("FPS: N/A", 20, 45);
+		//TODO: winfps
+		g.drawString("FPS: " + Main.getWin().getFPS(), 20, 45);
 
 		g.drawString("X: " + Main.getGame().getActiveLevel().getPlayer().getX() + " Y: "
 				+ Main.getGame().getActiveLevel().getPlayer().getY(), 20, 65);
@@ -406,8 +412,8 @@ public class Creator implements Executable, Selector {
 		}
 	};
 
-	public void setJob(Job job) {
-		this.job = job;
+	public void setJob(Task job) {
+		this.task = job;
 	}
 
 	public void execute(KeyBinding binding) {
@@ -496,9 +502,9 @@ public class Creator implements Executable, Selector {
 			g.drawImage(img, 0, 0, null);
 
 			g.setColor(foreground);
-			if (job != null)
-				g.drawString("FPS: " + job.getTps(),
-						size.width - 10 - g.getFontMetrics().stringWidth("FPS: " + job.getTps()),
+			if (task != null)
+				g.drawString("FPS: " + task.getTps(),
+						size.width - 10 - g.getFontMetrics().stringWidth("FPS: " + task.getTps()),
 						size.height - g.getFontMetrics().getHeight());
 		}
 
@@ -559,9 +565,5 @@ public class Creator implements Executable, Selector {
 			repaint();
 		}
 
-	}
-
-	public Runnable getJob() {
-		return routine;
 	}
 }

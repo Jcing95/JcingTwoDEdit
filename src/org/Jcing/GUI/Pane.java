@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import org.Jcing.graphics.Resizable;
-
 public class Pane extends Clickable implements JComponent, Paintable, Resizable {
 
 	public static final Color DEFAULTCOLOR = new Color(10, 150, 100, 100);

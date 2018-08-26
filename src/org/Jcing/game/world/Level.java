@@ -3,7 +3,6 @@ package org.Jcing.game.world;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -24,11 +23,15 @@ import org.Jcing.main.CollectedImage;
 import org.Jcing.main.ImageCollector;
 import org.Jcing.main.Main;
 
+import de.Jcing.util.Point;
+
 public class Level {
+	
 	private Point offset;
 	private int xfix, yfix;
 
 	public static final int CHUNKIMAGELIST = 0;
+	
 	public static final CollectedImage DEFAULTTILE = new CollectedImage(0, 0);
 	public static final CollectedImage MISSINGTILE = new CollectedImage(0, 1);
 	public static final int DEFAULTMINCOLLISIONSIZE = 8;
@@ -49,7 +52,7 @@ public class Level {
 	private int playerID;
 
 	//	private ArrayList<Chunk> chunks;
-	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	private HashMap<Point, Chunk> chunks;
 	private ArrayList<Chunk> loadedChunks;
 
 	private String name;
@@ -90,7 +93,7 @@ public class Level {
 
 	private void initImageCollector() {
 		lvlimgs = new ImageCollector();
-
+		System.out.println("initializing");
 		// TODO: INSERT STATIC LISTS HERE:
 		lvlimgs.addList(); // CHUNKIMAGELIST
 		lvlimgs.add(0, new JCImage(Tile.SIZE, Tile.SIZE, new Color(10,10,75))); //STANDARDTILE
@@ -100,33 +103,34 @@ public class Level {
 		tileImgsStartIndex = lvlimgs.size();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void load() {
-		File lvlfile = new File(Game.levelPath + "/" + name);
-		if (!lvlfile.exists()) {
-			System.err.println("Could not load lvl - creating new one!");
-			create();
-		} else {
-			initImageCollector();
-			//TODO: nullsave
-			tilesets = FileLoader.LoadArrayList(Game.levelPath + "/" + name + "/usedTilesets.JTS");
-			for (int i = 0; i < tilesets.size(); i++) {
-				o.println("loading Tileset nr: " + i);
-				lvlimgs.addList(FolderLoader.indexedLoad((tilesets.get(i)), true));
-			}
-			chunks = (HashMap<Integer, HashMap<Integer, Chunk>>) FileLoader
-					.LoadFile(Game.levelPath + "/" + name + "/chunks.chnJc");
-			//			Iterator<Integer> itx = ChunkIterator();
-			//			while(itx.hasNext()){
-			//				int x = itx.next();
-			//				Iterator<Integer> ity = ChunkIterator(x);
-			//				while(ity.hasNext()){
-			//					lvlimgs.add(CHUNKIMAGELIST, new)
-			//				}
-			//			}
-			loadChunks();
-			o.println("LOADED LVL " + name);
-		}
+//		File lvlfile = new File(Game.levelPath + "/" + name);
+//		if (!lvlfile.exists()) {
+//			System.err.println("Could not load lvl - creating new one!");
+//			create();
+//		} else {
+			//TODO: save world
+//			initImageCollector();
+//			//TODO: nullsave
+//			tilesets = FileLoader.LoadArrayList(Game.levelPath + "/" + name + "/usedTilesets.JTS");
+//			for (int i = 0;tilesets != null && i < tilesets.size(); i++) {
+//				o.println("loading Tileset nr: " + i);
+//				lvlimgs.addList(FolderLoader.indexedLoad((tilesets.get(i)), true));
+//			}
+//			chunks = (HashMap<Integer, HashMap<Integer, Chunk>>) FileLoader
+//					.LoadFile(Game.levelPath + "/" + name + "/chunks.chnJc");
+//			//			Iterator<Integer> itx = ChunkIterator();
+//			//			while(itx.hasNext()){
+//			//				int x = itx.next();
+//			//				Iterator<Integer> ity = ChunkIterator(x);
+//			//				while(ity.hasNext()){
+//			//					lvlimgs.add(CHUNKIMAGELIST, new)
+//			//				}
+//			//			}
+//			loadChunks();
+//			o.println("LOADED LVL " + name);
+//		}
+		create();
 		if (mincollisionSize <= 0) {
 			mincollisionSize = DEFAULTMINCOLLISIONSIZE;
 		}
@@ -134,14 +138,14 @@ public class Level {
 
 	public void create() {
 		File lvlfile = new File(Game.levelPath + "/" + name);
-		if (lvlfile.exists()) {
-			System.err.println("Error: A level with this name already exists!");
-		} else {
-			lvlfile.mkdirs();
-			initImageCollector();
-			tilesets = new ArrayList<String>();
-			chunks = new HashMap<Integer, HashMap<Integer, Chunk>>();
-		}
+//		if (lvlfile.exists()) {
+//			System.err.println("Error: A level with this name already exists!");
+//			return;
+//		} 
+		lvlfile.mkdirs();
+		initImageCollector();
+		tilesets = new ArrayList<String>();
+		chunks = new HashMap<>();
 		save();
 	}
 
@@ -154,7 +158,7 @@ public class Level {
 		g.dispose();
 	}
 
-	public void paint(Graphics g) {
+	public void draw(Graphics g) {
 		xfix = offset.x;
 		yfix = offset.y;
 		for (int i = 0; i < loadedChunks.size(); i++) {
@@ -186,22 +190,19 @@ public class Level {
 	}
 
 	public void addNewChunk(int x, int y) {
-		if (chunks.containsKey(x)) {
-			chunks.get(x).put(y, new Chunk(x, y, this));
-			o.println("L added Chunk at: " + x + " " + y);
-		} else {
-			chunks.put(x, new HashMap<Integer, Chunk>());
-			chunks.get(x).put(y, new Chunk(x, y, this));
-			o.println("L added Chunk at NL: " + x + " " + y);
-		}
+		chunks.put(new Point(x,y), new Chunk(x,y,this));
+//		if (chunks.containsKey(x)) {
+//			chunks.get(x).put(y, new Chunk(x, y, this));
+//			o.println("L added Chunk at: " + x + " " + y);
+//		} else {
+//			chunks.put(x, new HashMap<Integer, Chunk>());
+//			chunks.get(x).put(y, new Chunk(x, y, this));
+//			o.println("L added Chunk at NL: " + x + " " + y);
+//		}
 	}
 
 	public Chunk getChunk(int x, int y) {
-		if (chunks.containsKey(x)) {
-			return chunks.get(x).get(y);
-		} else {
-			return null;
-		}
+		return chunks.get(new Point(x,y));
 	}
 
 	public void removeChunk(int x, int y) {
@@ -210,18 +211,10 @@ public class Level {
 		}
 	}
 
-	public Iterator<Integer> ChunkIterator() {
-		return chunks.keySet().iterator();
-	}
-
-	public Iterator<Integer> ChunkIterator(int x) {
-		//TODO: should be null save
-		return chunks.get(x).keySet().iterator();
-	}
-
 	public void click(boolean drag) {
 		int x = Mouse.getX() - offset.x;
 		int y = Mouse.getY() - offset.y;
+		
 		if (hoveredChunk != null && !Mouse.isPressed()) {
 			if (hoveredChunk != null) {
 				if (chunkHovered && deleteChunks && getChunk(hoveredChunk) != null) {
@@ -253,7 +246,7 @@ public class Level {
 //		}
 	}
 
-	public void paintMovables(Graphics g) {
+	public void drawEntities(Graphics g) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (i != playerID)
 				entities.get(i).paint(g);
@@ -262,8 +255,8 @@ public class Level {
 	}
 
 	public void save() {
-		FileLoader.saveFile(Game.levelPath + "/" + name + "/chunks.chnJc", chunks);
-		FileLoader.saveArrayList(Game.levelPath + "/" + name + "/usedTilesets.JTS", tilesets);
+//		FileLoader.saveFile(Game.levelPath + "/" + name + "/chunks.chnJc", chunks);
+//		FileLoader.saveArrayList(Game.levelPath + "/" + name + "/usedTilesets.JTS", tilesets);
 	}
 
 	public Point[] getChunks(int x, int y, Rectangle footPrint) {
@@ -275,7 +268,7 @@ public class Level {
 			playerChunk = new Point[4 + 2 * (footPrint.width / mincollisionSize)
 					+ 2 * (footPrint.height / mincollisionSize)];
 		} else if (xpl > 0 || ypl > 0) {
-			// 2 more Collision points if w xOr h > n*mincollisionSize
+			// 2 more Collision points if w Or h > n*mincollisionSize
 			playerChunk = new Point[2 + 2 * (footPrint.width / mincollisionSize)
 					+ 2 * (footPrint.height / mincollisionSize)];
 		} else {
@@ -486,16 +479,10 @@ public class Level {
 	}
 	
 	public void loadChunks() {
-		// TODO: dynamically
-		Iterator<Integer> itx = ChunkIterator();
-		while (itx.hasNext()) {
-			int x = itx.next();
-			Iterator<Integer> ity = ChunkIterator(x);
-			while (ity.hasNext()) {
-				int y = ity.next();
-				getChunk(x, y).load(this);
-				addLoaded(getChunk(x, y));
-			}
+
+		for(Point pt : chunks.keySet()) {
+			getChunk(pt).load(this);
+			addLoaded(getChunk(pt));
 		}
 	}
 
@@ -505,23 +492,34 @@ public class Level {
 	}
 
 	public void hover(int x, int y) {
+		if(chunks == null)
+			return;
 		x -= offset.x;
 		y -= offset.y;
 		chunkHovered = false;
 
-		Iterator<Integer> itx = ChunkIterator();
-		while (itx.hasNext()) {
-			int cx = itx.next();
-			Iterator<Integer> ity = ChunkIterator(cx);
-			while (ity.hasNext()) {
-				int cy = ity.next();
-				if (getChunk(cx, cy).isActive()) {
-					getChunk(cx, cy).hover(x, y);
-					if (getChunk(cx, cy).contains(x, y)) {
-						chunkHovered = true;
-					}
+//		Iterator<Integer> itx = ChunkIterator();
+//		while (itx.hasNext()) {
+//			int cx = itx.next();
+//			Iterator<Integer> ity = ChunkIterator(cx);
+//			while (ity.hasNext()) {
+//				int cy = ity.next();
+//				if (getChunk(cx, cy).isActive()) {
+//					getChunk(cx, cy).hover(x, y);
+//					if (getChunk(cx, cy).contains(x, y)) {
+//						chunkHovered = true;
+//					}
+//				}
+//
+//			}
+//		}
+		
+		for (Point pt : chunks.keySet()) {
+			if (getChunk(pt) != null && getChunk(pt).isActive()) {
+				getChunk(pt).hover(x, y);
+				if (getChunk(pt).contains(x, y)) {
+					chunkHovered = true;
 				}
-
 			}
 		}
 		//		for (int i = 0; i < chunks.size(); i++) {
@@ -541,7 +539,7 @@ public class Level {
 
 		tilesets.add(path);
 		int setid = lvlimgs.addList(FolderLoader.indexedLoad(path, true));
-		Main.getMain().getCreator().refreshTiles(setid);
+		Main.getCreator().refreshTiles(setid);
 	}
 
 	//	public void addChunk(Chunk chunk) {
@@ -605,8 +603,7 @@ public class Level {
 
 	}
 
-	public void addX(int x) {
-		offset.x += x;
+	public void addX(int x) { offset.x += x;
 	}
 
 	public void addY(int y) {

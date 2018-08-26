@@ -2,21 +2,20 @@ package org.Jcing.GUI;
 
 import java.awt.Color;
 
-import org.Jcing.job.Job;
+import de.Jcing.tasks.Task;
 
 public class ScrollPane extends Pane {
 
 	public static final Color DEFAULTCOLOR = new Color(200, 20, 70, 100);
-	private Job job;
 	private int yOffset;
 
-	private Job scroll;
+	private Task scroll;
 	private int toMove;
 
 	public ScrollPane(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		color = DEFAULTCOLOR;
-		scroll = new Job(routine, 40, "scroll");
+		scroll = new Task(routine, 40);
 		setyOffset(0);
 //		scroll.setForceTime(0);
 	}
@@ -25,11 +24,11 @@ public class ScrollPane extends Pane {
 	public void mouseWheelMoved(int movement) {
 		if (hovered) {
 			toMove = movement*10;
-			if (scroll.isDead()){
+			if (scroll.isRunning()){
 //				scroll = new Job(this,40,"scroll");
 				scroll.start();
 			}
-			job.pause(false);
+			scroll.pause(false);
 //			System.out.println(scroll.isDead());
 		}
 	}
@@ -44,19 +43,17 @@ public class ScrollPane extends Pane {
 		boolean minus = true;
 		if (toMove > 0)
 			minus = false;
+		
 		if (minus)
 			toMove++;
 		else
 			toMove--;
 
 		if (toMove == 0) {
-			job.pause(true);
+			scroll.pause(true);
 		}
 	};
 
-	public void setJob(Job job) {
-		this.job = job;
-	}
 
 	public int getyOffset() {
 		return yOffset;

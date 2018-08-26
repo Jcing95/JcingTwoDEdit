@@ -20,7 +20,7 @@ public class Tile implements Serializable {
 	private int x, y;
 	private boolean collision, defined;
 	private String lvl;
-	public static final int SIZE = 32;
+	public static final int SIZE = 32/4;
 	private boolean animated;
 	private ArrayList<Integer> containingEntities;
 
@@ -29,7 +29,7 @@ public class Tile implements Serializable {
 	public Tile(CollectedImage img, String lvl, boolean collision) {
 		this.img = new ArrayList<CollectedImage>();
 		this.img.add(img);
-		animated = img.get(Main.getMain().getGame().getLevel(lvl).getImgCollector()).isAnimated();
+		animated = img.get(Main.getGame().getLevel(lvl).getImgCollector()).isAnimated();
 
 		this.collision = collision;
 		this.lvl = lvl;
@@ -77,13 +77,13 @@ public class Tile implements Serializable {
 	public void paint(Graphics g) {
 		if (defined) {
 			for (int i = 0; i < img.size(); i++) {
-				if (Main.getMain().getGame().getLevel(lvl).getImgCollector().get(img.get(i)) != null)
-					g.drawImage(Main.getMain().getGame().getLevel(lvl).getImgCollector().get(img.get(i)).getImg(),
+				if (Main.getGame().getLevel(lvl).getImgCollector().get(img.get(i)) != null)
+					g.drawImage(Main.getGame().getLevel(lvl).getImgCollector().get(img.get(i)).getImg(),
 							x * SIZE, y * SIZE, null);
 				else {
 					o.println("NULL-TILE");
 					g.drawImage(
-							Main.getMain().getGame().getLevel(lvl).getImgCollector().get(Level.MISSINGTILE).getImg(),
+							Main.getGame().getLevel(lvl).getImgCollector().get(Level.MISSINGTILE).getImg(),
 							x * SIZE, y * SIZE, null);
 				}
 			}
@@ -125,7 +125,7 @@ public class Tile implements Serializable {
 	public synchronized void leave(int ID) {
 		int c = 0;
 		while (containingEntities.contains(ID)) {
-			containingEntities.remove(new Integer(ID));
+			containingEntities.remove((Integer)ID);
 			c++;
 		}
 		o.println("removed " + c + " Entity " + ID + " duplicates at " + x + "|" + y + " size: "

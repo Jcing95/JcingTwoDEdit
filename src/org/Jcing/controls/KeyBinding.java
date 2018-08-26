@@ -65,7 +65,7 @@ public class KeyBinding {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		return new Integer(keycode).equals(obj);
+		return ((Integer)keycode).equals(obj);
 	}
 
 	/**

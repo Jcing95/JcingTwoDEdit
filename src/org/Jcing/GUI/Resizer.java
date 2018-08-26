@@ -3,7 +3,6 @@ package org.Jcing.GUI;
 import java.awt.Rectangle;
 
 import org.Jcing.Essentials.OutputStreamController;
-import org.Jcing.graphics.Resizable;
 
 public class Resizer {
 

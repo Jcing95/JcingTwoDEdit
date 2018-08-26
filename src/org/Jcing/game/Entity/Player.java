@@ -101,8 +101,8 @@ public class Player extends Entity implements Executable {
 	}
 
 	public Runnable remind = () -> {
-		x = Main.getWin().getWidth() / 2 - getImg().getWidth() / 2;
-		y = Main.getWin().getHeight() / 2 - getImg().getHeight() / 2;
+		x = Main.getWin().getCenterX() - getImg().getWidth() / 2;
+		y = Main.getWin().getCenterY() - getImg().getHeight() / 2;
 		o.println("x: " + x + " y: " + y + " fx:" + footPrint.x + " fy: " + footPrint.y);
 	};
 

@@ -7,8 +7,10 @@ import org.Jcing.controls.InputManager;
 import org.Jcing.controls.KeyBinding;
 import org.Jcing.creator.Creator;
 import org.Jcing.game.Game;
-import org.Jcing.job.JobManager;
 import org.Jcing.window.GameWindow;
+
+import de.Jcing.tasks.Clock;
+import de.Jcing.tasks.Task;
 
 public class Main implements Executable {
 
@@ -21,7 +23,6 @@ public class Main implements Executable {
 
 	private static Creator creator;
 
-	private static JobManager jm;
 	private static InputManager im;
 
 	private static Settings options;
@@ -60,11 +61,7 @@ public class Main implements Executable {
 
 		creator = new Creator();
 		
-		jm = new JobManager();
-		jm.addJob(game.getJob(), 20, "mainGame");
-		jm.addJob(win.getJob(), 1000, "gameWindow");
-		jm.addJob(creator.getJob(), 60, "gameCreator");
-		jm.startJobs();
+		Clock.start();
 		
 		exit = new KeyBinding(KeyEvent.VK_ESCAPE, this);
 //		im.addBinding(exit);
@@ -85,9 +82,7 @@ public class Main implements Executable {
 		creator.finish();
 
 		options.save();
-		if (jm.runningJobs() > 0 || jm.pausedJobs() > 0) {
-			jm.finishAll();
-		}
+		Clock.stop();
 		System.exit(1000);
 	}
 	

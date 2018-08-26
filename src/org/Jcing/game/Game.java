@@ -14,6 +14,8 @@ import org.Jcing.game.world.Level;
 import org.Jcing.graphics.JCImage;
 import org.Jcing.main.Main;
 
+import de.Jcing.tasks.Task;
+
 public class Game implements Executable {
 
 	// private Level lvl;
@@ -32,7 +34,9 @@ public class Game implements Executable {
 
 	public Game() {
 		levels = new ArrayList<Level>();
+		
 		levels.add(new Level("main", this));
+		
 		oneBinding = new KeyBinding(KeyEvent.VK_1,this,true);
 //		main.getInputManager().addBinding(oneBinding);
 		// lvl = new Level("main", this);
@@ -55,7 +59,8 @@ public class Game implements Executable {
 		testent =new PacMan(1000,400,levels.get(0));
 		
 		levels.get(0).addEntity(testent);
-
+		
+		new Task(routine, 20);
 	}
 
 	public Level getLevel(String name) {
