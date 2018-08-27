@@ -37,7 +37,6 @@ public class Checkbox extends Clickable {
 	}
 
 	public void hover(boolean hovered) {
-		// TODO Auto-generated method stub
 
 	}
 

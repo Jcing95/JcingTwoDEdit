@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.Jcing.controls.Executable;
 import org.Jcing.controls.KeyBinding;
-import org.Jcing.creator.rectanglecreator.RectangleCreator;
 import org.Jcing.game.Entity.Entity;
 import org.Jcing.game.Entity.PacMan;
 import org.Jcing.game.Entity.Player;
@@ -27,7 +26,6 @@ public class Game implements Executable {
 
 	private KeyBinding oneBinding;
 	private ArrayList<Level> levels;
-	private RectangleCreator rectcr;
 	
 	
 	private Entity testent;
@@ -94,11 +92,7 @@ public class Game implements Executable {
 	}
 
 	public void execute(KeyBinding binding) {
-		// TODO Auto-generated method stub
-		if (binding == oneBinding) {
-			rectcr = new RectangleCreator("TEST");
-			rectcr.start();
-		}
+
 	}
 
 	public Runnable remind = () -> {

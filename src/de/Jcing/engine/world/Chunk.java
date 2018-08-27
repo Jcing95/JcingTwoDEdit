@@ -1,8 +1,8 @@
-package de.Jcing.world;
+package de.Jcing.engine.world;
 
 import java.awt.Graphics2D;
 
-import de.Jcing.engine.Drawable;
+import de.Jcing.engine.graphics.Drawable;
 import de.Jcing.util.Point;
 
 public class Chunk implements Drawable{
@@ -12,11 +12,14 @@ public class Chunk implements Drawable{
 	private Tile[][] tiles;
 	private int x, y;
 	
-	boolean loaded;
+	private boolean loaded;
 	
-	public Chunk(int x, int y) {
+	private Stage stage;
+	
+	public Chunk(int x, int y, Stage stage) {
 		this.x = x;
 		this.y = y;
+		this.stage = stage;
 		tiles = new Tile[TILE_COUNT][TILE_COUNT];
 		for (int xt = 0; xt < tiles.length; xt++) {
 			for (int yt = 0; yt < tiles.length; yt++) {
@@ -31,11 +34,11 @@ public class Chunk implements Drawable{
 	}
 	
 	public int getXOffset() {
-		return 0;
+		return x * TILE_COUNT * Tile.TILE_PIXELS;
 	}
 	
 	public int getYOffset() {
-		return 0;
+		return y * TILE_COUNT * Tile.TILE_PIXELS;
 	}
 
 	@Override

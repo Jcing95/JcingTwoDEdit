@@ -20,7 +20,7 @@ public class Image {
 	public Image(File f) {
 		if(f.isFile()) {
 			//load single Image
-			//TODO: file no Image errorhandling here
+			//TODO: file no Image error handling here
 			frame = new Frame(f);
 			return;
 		}
@@ -36,7 +36,7 @@ public class Image {
 				}
 			}
 			
-			//multiple files at this location --> load all subimages recursively.
+			//multiple files at this location --> load all sub images recursively.
 			if(files.length > 1) {
 				hasMultiple = true;
 				frames = new ArrayList<>();
@@ -44,7 +44,7 @@ public class Image {
 					frames.add(new Image(files[0]));
 				}
 			}
-			//one directory --> load subimages as Animation
+			//one directory --> load sub images as Animation
 			else { 
 				if(files[0].isDirectory()) {
 					isAnimation = true;
@@ -64,10 +64,10 @@ public class Image {
 	
 	public Frame get(int index) {
 		if(hasMultiple) {
-			return frames.get(index % frames.size()).get();
+			return frames.get(index % frames.size()).get(index);
 		}
 		if(isAnimation) {
-			return frames.get((int) (Clock.millis() / frameTime % frames.size())).get();
+			return frames.get((int) (Clock.millis() / frameTime % frames.size())).get(index);
 		}
 		return frame;
 	}

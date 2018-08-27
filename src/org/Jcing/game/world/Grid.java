@@ -46,22 +46,18 @@ public class Grid implements Paintable, Serializable {
 	}
 
 	public int getX() {
-		// TODO Auto-generated method stub
 		return x;
 	}
 
 	public int getY() {
-		// TODO Auto-generated method stub
 		return y;
 	}
 
 	public int getWidth() {
-		// TODO Auto-generated method stub
 		return w;
 	}
 
 	public int getHeight() {
-		// TODO Auto-generated method stub
 		return h;
 	}
 
@@ -111,7 +107,6 @@ public class Grid implements Paintable, Serializable {
 	}
 
 	public boolean isClickable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

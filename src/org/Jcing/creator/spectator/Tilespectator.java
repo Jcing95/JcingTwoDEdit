@@ -57,7 +57,6 @@ public class Tilespectator implements Paintable {
 
 	
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
 
 	}
 

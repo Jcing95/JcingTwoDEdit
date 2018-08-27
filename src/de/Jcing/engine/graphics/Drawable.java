@@ -1,4 +1,4 @@
-package de.Jcing.engine;
+package de.Jcing.engine.graphics;
 
 import java.awt.Graphics2D;
 

@@ -63,7 +63,6 @@ public class Line implements Paintable {
 	}
 
 	public boolean isClickable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

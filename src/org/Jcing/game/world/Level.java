@@ -9,11 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.Jcing.Essentials.OutputStreamController;
 import org.Jcing.controls.Mouse;
-import org.Jcing.files.FileLoader;
 import org.Jcing.files.FolderLoader;
 import org.Jcing.game.Game;
 import org.Jcing.game.Entity.Entity;

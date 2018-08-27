@@ -55,12 +55,10 @@ public class JComponentListener implements MouseListener, MouseMotionListener, M
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 

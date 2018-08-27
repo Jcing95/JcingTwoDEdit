@@ -1,11 +1,12 @@
-package de.Jcing.world;
+package de.Jcing.engine.world;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
-import de.Jcing.engine.Drawable;
 import de.Jcing.engine.Trigger;
-import de.Jcing.entity.Entity;
+import de.Jcing.engine.entity.Entity;
+import de.Jcing.engine.graphics.Drawable;
 import de.Jcing.image.Image;
 
 public class Tile implements Drawable {
@@ -25,6 +26,9 @@ public class Tile implements Drawable {
 		this.chunk = chunk;
 		this.x = x;
 		this.y = y;
+		textures = new LinkedList<>();
+		entities = new LinkedList<>();
+		triggers = new LinkedList<>();
 	}
 	
 	public void addTexture(Image img) {
@@ -36,7 +40,8 @@ public class Tile implements Drawable {
 	public void draw(Graphics2D g) {
 		int xOff = chunk.getXOffset() + x * TILE_PIXELS;
 		int yOff = chunk.getYOffset() + y * TILE_PIXELS;
-		
+		g.setColor(Color.green);
+		g.fillRect(xOff, yOff, TILE_PIXELS, TILE_PIXELS);
 		for(Image i : textures) {
 			g.drawImage(i.get().get(), xOff, yOff, null);
 		}

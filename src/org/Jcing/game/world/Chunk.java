@@ -302,12 +302,10 @@ public class Chunk implements Serializable {
 	}
 
 	public void runner() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void setJob(Task job) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -6,15 +6,13 @@ import org.Jcing.controls.Executable;
 import org.Jcing.controls.InputManager;
 import org.Jcing.controls.KeyBinding;
 import org.Jcing.creator.Creator;
-import org.Jcing.game.Game;
 import org.Jcing.window.GameWindow;
 
+import de.Jcing.game.Game;
 import de.Jcing.tasks.Clock;
-import de.Jcing.tasks.Task;
+import de.Jcing.window.Window;
 
 public class Main implements Executable {
-
-	private static final String TITLE = "JCING Game";
 
 	private static Main m;
 
@@ -28,7 +26,8 @@ public class Main implements Executable {
 	private static Settings options;
 
 	private static ImageCollector mainImageCollector;
-	
+
+	private static Window window;
 	
 	//TODO: rework reminder as simple callback
 	public static Reminder mainInitialized;
@@ -46,28 +45,24 @@ public class Main implements Executable {
 
 	public void init() {
 		mainInitialized = new Reminder();
-		options = Settings.load("options.Jcop");
 
 		im = new InputManager();
-		
-		mainImageCollector = new ImageCollector();
-		
+		window = new Window();
 		game = new Game();
 		
-		//TODO: load in game constructor?
-		game.getActiveLevel().load();
-		
-		win = new GameWindow(TITLE);
-
-		creator = new Creator();
-		
-		Clock.start();
-		
 		exit = new KeyBinding(KeyEvent.VK_ESCAPE, this);
+		Clock.start();
+
+//		options = Settings.load("options.Jcop");
+//		mainImageCollector = new ImageCollector();
+//		game = new Game();
+		//TODO: load in game constructor?
+//		game.getActiveLevel().load();
+//		win = new GameWindow(TITLE);
+//		creator = new Creator();
 //		im.addBinding(exit);
 //		ImageManager im = new ImageManager("gfx/tiles");
-		
-		mainInitialized.remind();
+//		mainInitialized.remind();
 	}
 	
 	public void execute(KeyBinding binding) {
@@ -78,16 +73,20 @@ public class Main implements Executable {
 	
 	public static void finish() {
 		game.finish();
-		win.finish();
-		creator.finish();
+		window.finish();
+//		creator.finish();
 
-		options.save();
+//		options.save();
 		Clock.stop();
-		System.exit(1000);
+//		System.exit(1000);
 	}
 	
 	
 	//static getters
+	
+	public static Window getWindow() {
+		return window;
+	}
 	
 	public static Game getGame(){
 		return game;

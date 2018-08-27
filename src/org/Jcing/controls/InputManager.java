@@ -39,82 +39,78 @@ public class InputManager implements KeyListener, MouseListener, MouseMotionList
 
 	public void mouseDragged(MouseEvent e) {
 		
-		if (Main.getCreator() != null && !Main.settings().creatorWindowed && Main.getWin().creatorShown()) {
-			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
-				// SysteMain.out.println("ADD TILE!");
-				Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
-				Main.getGame().getActiveLevel().click(true);
-			} else {
-				// TODO: maybe unsafe
-				Main.getGame().getActiveLevel().hover(-1000, -1000);
-			}
-		} else {
-			// SysteMain.out.println("NO CREATOR SEEN");
-			Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
-			Main.getGame().getActiveLevel().click(true);
-		}
+//		if (Main.getCreator() != null && !Main.settings().creatorWindowed && Main.getWin().creatorShown()) {
+//			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+//				// SysteMain.out.println("ADD TILE!");
+//				Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
+//				Main.getGame().getActiveLevel().click(true);
+//			} else {
+//				// TODO: maybe unsafe
+//				Main.getGame().getActiveLevel().hover(-1000, -1000);
+//			}
+//		} else {
+//			// SysteMain.out.println("NO CREATOR SEEN");
+//			Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
+//			Main.getGame().getActiveLevel().click(true);
+//		}
 
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (Main.getCreator() != null && !Main.settings().creatorWindowed && Main.getWin().creatorShown()) {
-			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
-				// SysteMain.out.println("ADD TILE!");
-				Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
-			} else {
-				// TODO: maybe unsafe
-				Main.getGame().getActiveLevel().hover(-1000, -1000);
-			}
-		} else {
-			// SysteMain.out.println("NO CREATOR SEEN");
-			Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
-		}
+//		if (Main.getCreator() != null && !Main.settings().creatorWindowed && Main.getWin().creatorShown()) {
+//			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+//				// SysteMain.out.println("ADD TILE!");
+//				Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
+//			} else {
+//				// TODO: maybe unsafe
+//				Main.getGame().getActiveLevel().hover(-1000, -1000);
+//			}
+//		} else {
+//			// SysteMain.out.println("NO CREATOR SEEN");
+//			Main.getGame().getActiveLevel().hover(e.getX(), e.getY());
+//		}
 
 	}
 
 	public void mousePressed(MouseEvent e) {
 		
-		if (Main.getCreator() != null && !Main.settings().creatorWindowed) {
-			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
-				System.out.println("ADD TILE!");
-				Main.getGame().getActiveLevel().click(false);
-			}
-		} else {
-			// SysteMain.out.println("NO CREATOR SEEN");
-			Main.getGame().getActiveLevel().click(false);
-		}
+//		if (Main.getCreator() != null && !Main.settings().creatorWindowed) {
+//			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+//				System.out.println("ADD TILE!");
+//				Main.getGame().getActiveLevel().click(false);
+//			}
+//		} else {
+//			// SysteMain.out.println("NO CREATOR SEEN");
+//			Main.getGame().getActiveLevel().click(false);
+//		}
 
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		if (Main.getCreator() != null && !Main.settings().creatorWindowed) {
-			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
-				// SysteMain.out.println("ADD TILE!");
-				Main.getGame().getActiveLevel().click(false);
-			}
-		} else {
-			// SysteMain.out.println("NO CREATOR SEEN");
-			Main.getGame().getActiveLevel().click(false);
-		}
+//		if (Main.getCreator() != null && !Main.settings().creatorWindowed) {
+//			if (!Main.getCreator().hovered(e.getX(), e.getY())) {
+//				// SysteMain.out.println("ADD TILE!");
+//				Main.getGame().getActiveLevel().click(false);
+//			}
+//		} else {
+//			// SysteMain.out.println("NO CREATOR SEEN");
+//			Main.getGame().getActiveLevel().click(false);
+//		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
