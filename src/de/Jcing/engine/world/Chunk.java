@@ -2,6 +2,8 @@ package de.Jcing.engine.world;
 
 import java.awt.Graphics2D;
 
+import org.Jcing.main.Main;
+
 import de.Jcing.engine.graphics.Drawable;
 import de.Jcing.util.Point;
 
@@ -34,11 +36,11 @@ public class Chunk implements Drawable{
 	}
 	
 	public int getXOffset() {
-		return x * TILE_COUNT * Tile.TILE_PIXELS;
+		return x * TILE_COUNT * Tile.TILE_PIXELS - Main.getCamera().x*Main.getWindow().PIXEL_SIZE;
 	}
 	
 	public int getYOffset() {
-		return y * TILE_COUNT * Tile.TILE_PIXELS;
+		return y * TILE_COUNT * Tile.TILE_PIXELS - Main.getCamera().y*Main.getWindow().PIXEL_SIZE;
 	}
 
 	@Override

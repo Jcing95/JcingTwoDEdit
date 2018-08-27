@@ -30,7 +30,7 @@ public class Window {
 	public static final Color DEFAULT_BACKGROUND = new Color(5,20,2);
 	public static final Color DEFAULT_FOREGROUND = new Color(220,220,220);
 
-	private static final int PIXEL_SIZE = 1;	
+	public static final int PIXEL_SIZE = 1;	
 	
 	private JFrame frame;
 	private Canvas canvas;

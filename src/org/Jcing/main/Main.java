@@ -10,6 +10,7 @@ import org.Jcing.window.GameWindow;
 
 import de.Jcing.game.Game;
 import de.Jcing.tasks.Clock;
+import de.Jcing.util.Point;
 import de.Jcing.window.Window;
 
 public class Main implements Executable {
@@ -34,6 +35,8 @@ public class Main implements Executable {
 
 	private KeyBinding exit;
 	
+	private static Point camera;
+	
 	
 	public static void main(String[] args) {
 		m = new Main();
@@ -45,7 +48,10 @@ public class Main implements Executable {
 
 	public void init() {
 		mainInitialized = new Reminder();
-
+		
+		camera = new Point(0,0);
+		camera.y = -5;
+		camera.x = -5;
 		im = new InputManager();
 		window = new Window();
 		game = new Game();
@@ -114,6 +120,10 @@ public class Main implements Executable {
 
 	public static ImageCollector getMainImageCollector() {
 		return mainImageCollector;
+	}
+
+	public static Point getCamera() {
+		return camera;
 	}
 	
 }
