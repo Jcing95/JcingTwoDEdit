@@ -15,9 +15,10 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import org.Jcing.main.Main;
-
+import de.Jcing.Main;
 import de.Jcing.engine.graphics.Drawable;
+import de.Jcing.engine.io.KeyBoard;
+import de.Jcing.engine.io.Mouse;
 import de.Jcing.tasks.Task;
 
 public class Window {
@@ -30,7 +31,7 @@ public class Window {
 	public static final Color DEFAULT_BACKGROUND = new Color(5,20,2);
 	public static final Color DEFAULT_FOREGROUND = new Color(220,220,220);
 
-	public static final int PIXEL_SIZE = 1;	
+	public static final int PIXEL_SIZE = 3;	
 	
 	private JFrame frame;
 	private Canvas canvas;
@@ -48,9 +49,9 @@ public class Window {
 		canvas.setBackground(DEFAULT_BACKGROUND);
 		canvas.setForeground(DEFAULT_FOREGROUND);
 		
-		canvas.addKeyListener(Main.getInputManager());
-		canvas.addMouseListener(Main.getInputManager());
-		canvas.addMouseMotionListener(Main.getInputManager());
+		canvas.addKeyListener(KeyBoard.keyListener);
+		canvas.addMouseListener(Mouse.mouseListener);
+		canvas.addMouseMotionListener(Mouse.mouseMotionListener);
 		
 		frame.add(canvas);
 		frame.addComponentListener(componentListener);
@@ -62,7 +63,8 @@ public class Window {
 		
 		drawables = new LinkedList<>();
 		
-		task = new Task(() -> render(), 120);
+		task = new Task(() -> render(), 160);
+		new Task( () -> System.out.println(task.tps),1);
 	}
 	
 	public void render() {
@@ -93,9 +95,11 @@ public class Window {
 				
 		g.dispose();
 		bs.show();
+		
 	}
 	
 	public void finish() {
+		task.finish();
 		frame.dispose();
 	}
 	

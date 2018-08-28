@@ -1,25 +1,31 @@
 package de.Jcing.util;
 
-public class Point {
+public class Point implements Cloneable{
 	
-	public int x, y;
+	public double x, y;
 	
-	public Point(int x, int y) {
+	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 	
 	public int getX() {
-		return x;
+		return (int)x;
 	}
 	
 	public int getY() {
-		return y;
+		return (int)y;
 	}
 	
 	@Override
 	public int hashCode() {
 		return (x + "|" + y).hashCode();
 	}
+	
+	@Override
+	public Point clone() {
+		return new Point(x,y);
+	}
+	
 	
 }

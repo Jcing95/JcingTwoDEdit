@@ -21,9 +21,9 @@ public class KeyBoard {
 	public static final LinkedList<Binding> onPress = new LinkedList<>();
 	public static final LinkedList<Binding> onRelease = new LinkedList<>();
 	
-	public static final HashMap<Integer, LinkedList<Binding>> bindings = new HashMap<>();
+	private static final HashMap<Integer, LinkedList<Binding>> bindings = new HashMap<>();
 	
-	{
+	static {
 		onPress.add(pressKey);
 		onRelease.add(releaseKey);
 		bindings.put(ONTYPE, onType);
@@ -51,6 +51,13 @@ public class KeyBoard {
 				b.onAction(e.getKeyCode());
 		}
 	};
+	
+	public static void addBinding(int KEY, Binding binding) {
+		if(bindings.containsKey(KEY))
+			bindings.get(KEY).add(binding);
+		else
+			throw new IllegalArgumentException("invalid binding key! " + bindings.keySet());
+	}
 	
 	public static boolean isPressed(int keyCode) {
 		return pressedKeys.containsKey(keyCode) && pressedKeys.get(keyCode);

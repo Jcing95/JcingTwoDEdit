@@ -33,7 +33,7 @@ public class Mouse {
 	
 	private static final HashMap<Integer, LinkedList<Binding>> bindings = new HashMap<>();
 	
-	{
+	static {
 		bindings.put(ONPRESS, onPress);
 		bindings.put(ONRELEASE, onRelease);
 		bindings.put(ONCLICK, onClick);
@@ -41,13 +41,6 @@ public class Mouse {
 		bindings.put(ONEXIT, onExit);
 		bindings.put(ONMOVE, onMove);
 		bindings.put(ONDRAG, onDrag);
-	}
-	
-	public static void addBinding(int key, Binding binding) {
-		if(bindings.containsKey(key))
-			bindings.get(key).add(binding);
-		else
-			throw new IllegalArgumentException("invalid binding key!");
 	}
 	
 	public static final MouseListener mouseListener = new MouseListener() {
@@ -90,17 +83,47 @@ public class Mouse {
 		
 		@Override
 		public void mouseDragged(MouseEvent e) {
+			lx = x;
+			x = e.getX();
+			ly = y;
+			y = e.getY();
 			for(Binding b : onDrag)
 				b.onAction(e.getButton());
 		}
 
 		@Override
-		public void mouseMoved(MouseEvent e) {	
+		public void mouseMoved(MouseEvent e) {
+			lx = x;
+			x = e.getX();
+			ly = y;
+			y = e.getY();
 			for(Binding b : onMove)
 				b.onAction(e.getButton());
 		}
 	};
 	
+	public static void addBinding(int KEY, Binding binding) {
+		if(bindings.containsKey(KEY))
+			bindings.get(KEY).add(binding);
+		else
+			throw new IllegalArgumentException("invalid binding key!");
+	}
+
+	public static int getX() {
+		return x;
+	}
+	
+	public static int getY() {
+		return y;
+	}
+	
+	public static int getLastX() {
+		return lx;
+	}
+	
+	public static int getLastY() {
+		return ly;
+	}
 	
 	
 }

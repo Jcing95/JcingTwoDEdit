@@ -2,10 +2,10 @@ package de.Jcing.engine.world;
 
 import java.awt.Graphics2D;
 
-import org.Jcing.main.Main;
-
+import de.Jcing.Main;
 import de.Jcing.engine.graphics.Drawable;
 import de.Jcing.util.Point;
+import de.Jcing.window.Window;
 
 public class Chunk implements Drawable{
 	
@@ -17,6 +17,7 @@ public class Chunk implements Drawable{
 	private boolean loaded;
 	
 	private Stage stage;
+	
 	
 	public Chunk(int x, int y, Stage stage) {
 		this.x = x;
@@ -36,11 +37,11 @@ public class Chunk implements Drawable{
 	}
 	
 	public int getXOffset() {
-		return x * TILE_COUNT * Tile.TILE_PIXELS - Main.getCamera().x*Main.getWindow().PIXEL_SIZE;
+		return (int) (x * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().x*Window.PIXEL_SIZE);
 	}
 	
 	public int getYOffset() {
-		return y * TILE_COUNT * Tile.TILE_PIXELS - Main.getCamera().y*Main.getWindow().PIXEL_SIZE;
+		return (int) (y * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().y*Window.PIXEL_SIZE);
 	}
 
 	@Override
@@ -54,10 +55,6 @@ public class Chunk implements Drawable{
 	
 	public boolean isLoaded() {
 		return loaded;
-	}
-	
-	public Point getPoint() {
-		return new Point(x,y);
 	}
 	
 }

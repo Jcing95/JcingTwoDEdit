@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import de.Jcing.Main;
 import de.Jcing.engine.entity.Entity;
 import de.Jcing.engine.graphics.Drawable;
 import de.Jcing.util.Point;
@@ -14,6 +15,7 @@ public class Stage implements Drawable{
 	private HashMap<Integer, Entity> entities;
 	private LinkedList<Integer> loadedChunks;
 	
+	private Point camera;
 	
 	//TODO: implement and manage tilesets!
 	
@@ -25,6 +27,9 @@ public class Stage implements Drawable{
 	
 	@Override
 	public void draw(Graphics2D g) {
+		//update stage camera here for consistent offset during rendering.
+		camera = Main.getGame().getCamera().clone();
+		
 		for(Point pt : chunks.keySet())
 			chunks.get(pt).draw(g);
 		for(Integer i : entities.keySet())
@@ -62,6 +67,14 @@ public class Stage implements Drawable{
 	public int addEntity(Entity entity) {
 		entities.put(entity.hashCode(), entity);
 		return entity.hashCode();
+	}
+
+	public Point getCamera() {
+		return camera;
+	}
+
+	public void setCamera(Point camera) {
+		this.camera = camera;
 	}
 	
 	
