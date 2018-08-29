@@ -27,5 +27,10 @@ public class Point implements Cloneable{
 		return new Point(x,y);
 	}
 	
+	@Override
+	public String toString() {
+		return "("+ x +" | " + y + " )";
+	}
+	
 	
 }

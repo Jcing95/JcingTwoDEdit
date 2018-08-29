@@ -48,7 +48,13 @@ public class Entity implements Drawable {
 		speedX = Float.max(0, speedX-DRAG);
 		speedY = Float.max(0, speedY-DRAG);
 		speedX = Float.min(speedX+accelerationX, MAXSPEED);
-		speedY = Float.min(speedX + accelerationY, MAXSPEED )
+		speedY = Float.min(speedX + accelerationY, MAXSPEED);
+		
+//		stage.getTileAtWorldPos(x,y)
+		
+		if(w > Tile.TILE_PIXELS || h > Tile.TILE_PIXELS) {
+			
+		}
 	}
 	
 	

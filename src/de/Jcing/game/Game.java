@@ -23,6 +23,13 @@ public class Game {
 		camera = new Point(0,0);
 		Main.getWindow().addDrawable(mainStage);
 		tick = new Task(() -> tick(), 60);
+		
+		mainStage.getChunkAtWorldPos(-10, 10);
+		mainStage.getChunkAtWorldPos(0, 0);
+		mainStage.getChunkAtWorldPos(-1, 0);
+		mainStage.getChunkAtWorldPos(-17, 10);
+
+
 	}
 	
 	public Point getCamera() {
