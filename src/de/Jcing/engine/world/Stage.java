@@ -48,6 +48,10 @@ public class Stage implements Drawable{
 		return chunks.get(point);
 	}
 	
+	public Chunk getChunkAtWorldPos() {
+		
+	}
+	
 	public void removeChunk(int x, int y) {
 		removeChunk(new Point(x,y));
 	}

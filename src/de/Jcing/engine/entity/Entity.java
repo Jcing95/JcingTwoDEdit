@@ -51,6 +51,13 @@ public class Entity implements Drawable {
 		speedY = Float.min(speedX + accelerationY, MAXSPEED )
 	}
 	
+	
+	//TODO: implement Entity logics
+	// register at all tiles via Stage.getTileAtWorldPos()
+	// if Entity size > Tile Size go with EntitySize/TileSize steps
+	// for collision go in BiggerRect/smallerRect steps;
+	
+	
 	@Override
 	public void draw(Graphics2D g) {
 		
