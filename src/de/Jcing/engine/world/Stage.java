@@ -40,16 +40,12 @@ public class Stage implements Drawable{
 		chunks.put(new Point(x,y), new Chunk(x,y,this));
 	}
 	
-	public Chunk getChunk(int x, int y) {
-		return getChunk(new Point(x,y));
-	}
-	
 	public Chunk getChunk(Point point) {
 		return chunks.get(point);
 	}
 	
 	public Chunk getChunkAtWorldPos(double x, double y) {
-		//if negative decrement against "-0"
+		//if negative: decrement against "-0"
 		int xChunk = (int) (x/Chunk.TILE_COUNT);
 		if(x < 0)
 			xChunk--;
@@ -59,6 +55,13 @@ public class Stage implements Drawable{
 			yChunk --;
 		System.out.println(new Point(xChunk, yChunk));
 		return chunks.get(new Point(xChunk, yChunk));
+	}
+	
+	public Tile getTileAtWorldPos(double x, double y) {
+		int xTile = (int)x % Chunk.TILE_COUNT;
+		int yTile = (int)y % Chunk.TILE_COUNT;
+		
+		return getChunkAtWorldPos(x,y).getTile(xTile,yTile);
 	}
 	
 	public void removeChunk(int x, int y) {

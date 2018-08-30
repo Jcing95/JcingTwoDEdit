@@ -4,10 +4,10 @@ import de.Jcing.util.Point;
 
 public class Rectangle {
 	
-	public int x,y;
-	public int width, height;
+	public double x,y;
+	public double width, height;
 	
-	public Rectangle(int x, int y, int width, int height) {
+	public Rectangle(double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;

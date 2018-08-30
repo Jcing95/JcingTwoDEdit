@@ -36,6 +36,10 @@ public class Chunk implements Drawable{
 		this.loaded = loaded;
 	}
 	
+	public Tile getTile(int x, int y) {
+		return tiles[x][y];
+	}
+	
 	public int getXOffset() {
 		return (int) (x * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().x*Window.PIXEL_SIZE);
 	}

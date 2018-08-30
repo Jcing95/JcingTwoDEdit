@@ -9,6 +9,7 @@ import de.Jcing.engine.world.Stage;
 import de.Jcing.engine.world.Tile;
 import de.Jcing.geometry.Rectangle;
 import de.Jcing.image.Image;
+import de.Jcing.util.Point;
 
 public class Entity implements Drawable {
 	
@@ -34,13 +35,17 @@ public class Entity implements Drawable {
 	
 	protected LinkedList<Tile> occupiedTiles;
 	
+	protected LinkedList<Point> tileOccupationMask;
 	
 	
 	
 	
-	public Entity(Stage stage) {
+	
+	public Entity(Stage stage, double x, double y, double w, double h) {
 		this.stage = stage;
 	}
+	
+	
 	
 	public void tick() {
 		x += speedX;
@@ -50,11 +55,9 @@ public class Entity implements Drawable {
 		speedX = Float.min(speedX+accelerationX, MAXSPEED);
 		speedY = Float.min(speedX + accelerationY, MAXSPEED);
 		
-//		stage.getTileAtWorldPos(x,y)
 		
-		if(w > Tile.TILE_PIXELS || h > Tile.TILE_PIXELS) {
-			
-		}
+		
+		
 	}
 	
 	

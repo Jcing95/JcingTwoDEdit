@@ -85,8 +85,9 @@ public class Tile implements Drawable {
 		return entities;
 	}
 	
-	public void enter(Entity e) {
+	public Tile enter(Entity e) {
 		entities.add(e);
+		return this;
 	}
 	
 	public void leave(Entity e) {
