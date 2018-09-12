@@ -3,10 +3,10 @@ package de.Jcing.window;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
@@ -19,6 +19,7 @@ import de.Jcing.Main;
 import de.Jcing.engine.graphics.Drawable;
 import de.Jcing.engine.io.KeyBoard;
 import de.Jcing.engine.io.Mouse;
+import de.Jcing.engine.world.Tile;
 import de.Jcing.tasks.Task;
 
 public class Window {
@@ -28,17 +29,20 @@ public class Window {
 	public static final int DEFAULT_WIDTH = 1280;
 	public static final int DEFAULT_HEIGHT = 720;
 	
+	public static final int PIXEL_WIDTH = Tile.TILE_PIXELS * 16;
+	public static final int PIXEL_HEIGHT = Tile.TILE_PIXELS * 9;
+	
 	public static final Color DEFAULT_BACKGROUND = new Color(5,20,2);
 	public static final Color DEFAULT_FOREGROUND = new Color(220,220,220);
-
-	public static final int PIXEL_SIZE = 3;	
 	
 	private JFrame frame;
 	private Canvas canvas;
 	
 	private LinkedList<Drawable> drawables;
 	
-	Task task;
+	private Task task;
+
+	private FontMetrics fontMetrics;
 	
 	public Window() {
 		frame = new JFrame(TITLE);
@@ -54,7 +58,6 @@ public class Window {
 		canvas.addMouseMotionListener(Mouse.mouseMotionListener);
 		
 		frame.add(canvas);
-		frame.addComponentListener(componentListener);
 		frame.addWindowListener(windowListener);
 		frame.pack();
 		frame.setVisible(true);
@@ -63,37 +66,54 @@ public class Window {
 		
 		drawables = new LinkedList<>();
 		
+		Graphics2D initGraphics = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB).createGraphics();
+		//TODO: set font and init other flags.
+		fontMetrics = initGraphics.getFontMetrics();
+		
+		KeyBoard.addBinding(KeyBoard.ONPRESS, (key) -> {
+			if(key == KeyEvent.VK_P)
+				task.pause(true);
+		});
+		KeyBoard.addBinding(KeyBoard.ONPRESS, (key) -> {
+			if(key == KeyEvent.VK_P)
+				task.pause(false);
+		});
 		task = new Task(() -> render(), 160);
-		new Task( () -> System.out.println(task.tps),1);
 	}
 	
 	public void render() {
-
-		BufferStrategy bs = canvas.getBufferStrategy();
-		
-		if(bs == null){
-			canvas.createBufferStrategy(2);
-			return;
-		}		
-		
 		//draw everything on buffer for later scaling.
-		BufferedImage buffer = new BufferedImage(getCanvasWidth(), getCanvasHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = (Graphics2D)buffer.getGraphics();
+		BufferedImage buffer = new BufferedImage(PIXEL_WIDTH, PIXEL_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D g = buffer.createGraphics();
 		
 		for(Drawable d : drawables) {
 			d.draw(g);
 		}
 		
-		g.dispose();
+		double imageWidth = canvas.getWidth();
+		if(imageWidth / 16 * 9 > canvas.getHeight())
+			imageWidth = canvas.getHeight() / 9.0 * 16;
+		double imageHeight = imageWidth / 16.0 * 9;
+		int xOffset = (int)((canvas.getWidth()-imageWidth)/2);
+		int yOffset = (int)((canvas.getHeight()-imageHeight)/2);
 		
-		g = (Graphics2D) bs.getDrawGraphics();
-		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-		g.drawImage(buffer, 0, 0, canvas.getWidth(), canvas.getHeight(), null);
-				
+		BufferStrategy bs = canvas.getBufferStrategy();
+		
+		if(bs == null){
+			canvas.createBufferStrategy(2);
+			bs = canvas.getBufferStrategy();
+			return;
+		}	
+		
+		Graphics2D g2 = (Graphics2D) bs.getDrawGraphics();
+		
+		g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+		g2.drawImage(buffer, xOffset, yOffset, (int)imageWidth, (int)imageHeight, null);
 		g.dispose();
+		g2.dispose();
 		bs.show();
 		
 	}
@@ -110,14 +130,7 @@ public class Window {
 	public void removeDrawable(Drawable drawable) {
 		drawables.remove(drawable);
 	}
-	
-	public int getCanvasWidth() {
-		return canvas.getWidth()/PIXEL_SIZE;
-	}
-	
-	public int getCanvasHeight() {
-		return canvas.getHeight()/PIXEL_SIZE;
-	}
+
 	
 	WindowListener windowListener = new WindowListener() {
 
@@ -145,23 +158,17 @@ public class Window {
 		public void windowOpened(WindowEvent arg0) {}
 		
 	};
+
+	public double getPixelSize() {
+		return 1.0*canvas.getWidth()/PIXEL_WIDTH;
+	}
+
+	public FontMetrics getFontMetrics() {
+		return fontMetrics;
+	}
 	
-	ComponentListener componentListener = new ComponentListener() {
-
-		@Override
-		public void componentResized(ComponentEvent arg0) {
-			//TODO: handle window resizing
-		}
-		
-		@Override
-		public void componentHidden(ComponentEvent arg0) {}
-
-		@Override
-		public void componentMoved(ComponentEvent arg0) {}
-
-		@Override
-		public void componentShown(ComponentEvent arg0) {}
-		
-	};
+	public int getFPS() {
+		return task.tps;
+	}
 	
 }

@@ -5,7 +5,7 @@ import de.Jcing.engine.world.Stage;
 public class Player extends Entity {
 
 	public Player(Stage stage) {
-		super(stage);
+		super(stage,0,0,0,0);
 
 	}
 	

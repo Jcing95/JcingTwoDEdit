@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.util.LinkedList;
 
+import de.Jcing.Main;
 import de.Jcing.engine.Trigger;
 import de.Jcing.engine.entity.Entity;
 import de.Jcing.engine.graphics.Drawable;
@@ -12,7 +13,6 @@ import de.Jcing.engine.io.Mouse;
 import de.Jcing.geometry.Rectangle;
 import de.Jcing.image.Image;
 import de.Jcing.util.Point;
-import de.Jcing.window.Window;
 
 public class Tile implements Drawable {
 	
@@ -22,7 +22,7 @@ public class Tile implements Drawable {
 	private LinkedList<Entity> entities;
 	private LinkedList<Trigger> triggers;
 	
-	private Image testBack = new Image(new File("C:\\workspace\\java\\JcingWorld\\res\\terrain\\dev\\sand.png"));
+	private Image testBack = new Image(new File("D:\\git\\JcingWorld\\res\\terrain\\dev\\birch.png"));
 	
 	private boolean collision;
 	
@@ -50,11 +50,11 @@ public class Tile implements Drawable {
 	public void draw(Graphics2D g) {
 		int xOff = getXOnScreen();
 		int yOff = getYOnScreen();
-		if(hovered())
+		if(hovered()) {
 			g.setColor(Color.white);
-		else
-			g.setColor(testColor);
-		g.fillRect(xOff, yOff, TILE_PIXELS, TILE_PIXELS);
+			g.fillRect(xOff, yOff, TILE_PIXELS, TILE_PIXELS);
+		}
+		if(!hovered())
 		for(Image i : textures) {
 			g.drawImage(i.get().get(), xOff, yOff, null);
 		}
@@ -63,15 +63,15 @@ public class Tile implements Drawable {
 	public boolean hovered() {
 		return new Rectangle(getXOnScreen(), getYOnScreen(),
 				TILE_PIXELS, TILE_PIXELS)
-				.contains(new Point(Mouse.getX()/Window.PIXEL_SIZE, Mouse.getY()/Window.PIXEL_SIZE));
+				.contains(new Point(Mouse.getX()/Main.getWindow().getPixelSize(), Mouse.getY()/Main.getWindow().getPixelSize()));
 	}
 	
 	public int getXOnScreen() {
-		return x * TILE_PIXELS - chunk.getXOffset();
+		return x * TILE_PIXELS + chunk.getXOffset();
 	}
 	
 	public int getYOnScreen() {
-		return y * TILE_PIXELS - chunk.getYOffset();
+		return y * TILE_PIXELS + chunk.getYOffset();
 	}
 	
 	public void removeFrame(boolean last) {

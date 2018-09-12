@@ -9,7 +9,7 @@ import de.Jcing.window.Window;
 
 public class Chunk implements Drawable{
 	
-	public static final int TILE_COUNT = 16;
+	public static final int TILE_COUNT = 4;
 	
 	private Tile[][] tiles;
 	private int x, y;
@@ -40,16 +40,24 @@ public class Chunk implements Drawable{
 		return tiles[x][y];
 	}
 	
+	public boolean isOnScreen() {
+		return getXOffset() >= 0 && getXOffset() <= Main.getWindow().PIXEL_WIDTH ||
+				getXOffset() + TILE_COUNT*Tile.TILE_PIXELS >= 0 && getXOffset() + TILE_COUNT*Tile.TILE_PIXELS <= Main.getWindow().PIXEL_WIDTH ||
+				getYOffset() >= 0 && getYOffset() <= Main.getWindow().PIXEL_HEIGHT ||
+				getYOffset() + TILE_COUNT*Tile.TILE_PIXELS >= 0 && getYOffset() + TILE_COUNT*Tile.TILE_PIXELS <= Main.getWindow().PIXEL_HEIGHT;
+	}
+	
 	public int getXOffset() {
-		return (int) (x * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().x*Window.PIXEL_SIZE);
+		return (int) (x * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().x*Main.getWindow().getPixelSize());
 	}
 	
 	public int getYOffset() {
-		return (int) (y * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().y*Window.PIXEL_SIZE);
+		return (int) (y * TILE_COUNT * Tile.TILE_PIXELS - stage.getCamera().y*Main.getWindow().getPixelSize());
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
+		if(isOnScreen())
 		for (int xt = 0; xt < tiles.length; xt++) {
 			for (int yt = 0; yt < tiles.length; yt++) {
 				tiles[xt][yt].draw(g);

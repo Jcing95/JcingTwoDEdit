@@ -21,4 +21,14 @@ public class Rectangle {
 	public boolean contains(Point point) {
 		return point.x > x && point.x < x+width && point.y > y && point.y < y + height;	
 	}
+	
+	public int compare(Rectangle r) {
+		boolean w = width > r.width;
+		boolean h = height > r.height;
+		if(w && h)
+			return 1;
+		if(!w && !h)
+			return -1;
+		return 0;
+	}
 }
