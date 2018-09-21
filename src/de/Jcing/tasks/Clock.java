@@ -31,7 +31,7 @@ public class Clock {
 	}
 	
 	public static long millis() {
-		return startMillis-System.currentTimeMillis();
+		return (System.currentTimeMillis()-startMillis);
 	}
 	
 	

@@ -31,6 +31,10 @@ public class Mouse {
 	private static final LinkedList<Binding> onMove = new LinkedList<>();
 	private static final LinkedList<Binding> onDrag = new LinkedList<>();
 	
+	public static final int LEFT = MouseEvent.BUTTON1;
+//	public static final int RIGHT = MouseEvent.BUTTON2;
+	
+	
 	private static final HashMap<Integer, LinkedList<Binding>> bindings = new HashMap<>();
 	
 	static {
@@ -55,12 +59,15 @@ public class Mouse {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+//			System.out.println(e.getButton() + "  " + LEFT);
+			keys.put(e.getButton(),true);
 			for(Binding b : onPress)
 				b.onAction(e.getButton());
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
+			keys.put(e.getButton(), false);
 			for(Binding b : onRelease)
 				b.onAction(e.getButton());
 		}

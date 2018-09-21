@@ -31,4 +31,20 @@ public class Rectangle {
 			return -1;
 		return 0;
 	}
+	
+	public int getX() {
+		return (int)x;
+	}
+	
+	public int getY() {
+		return (int)y;
+	}
+	
+	public int getWidth() {
+		return (int)width;
+	}
+	
+	public int getHeight() {
+		return (int)height;
+	}
 }

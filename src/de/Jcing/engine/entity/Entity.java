@@ -20,7 +20,14 @@ public class Entity implements Drawable {
 
 	public static final float DRAG = 0.7f;
 	public static final float MAXSPEED = 10;
-
+	
+	public static final int ON_UP = 0;
+	public static final int ON_LEFT = 1;
+	public static final int ON_RIGHT = 2;
+	public static final int ON_DOWN = 3;
+	
+	protected int animationIndex;
+	
 	protected HashMap<Integer, Image> sprite;
 
 	protected Stage stage;
@@ -54,6 +61,7 @@ public class Entity implements Drawable {
 		this.h = h;
 		onTick = new LinkedList<>();
 		tileOccupationMask = createOccupationMask(Tile.TILE_PIXELS);
+		sprite = new HashMap<>();
 	}
 
 	private LinkedList<Point> createOccupationMask(int MAXDELTA) {
@@ -127,6 +135,15 @@ public class Entity implements Drawable {
 		accelerationX = 0;
 		accelerationY = 0;
 		
+		if(speedX > 0)
+			animationIndex = ON_RIGHT;
+		if(speedX < 0)
+			animationIndex = ON_LEFT;
+		if(speedY > 0)
+			animationIndex = ON_DOWN;
+		if(speedY < 0)
+			animationIndex = ON_UP;
+		
 		for(Runnable r : onTick) {
 			r.run();
 		}
@@ -145,7 +162,6 @@ public class Entity implements Drawable {
 		// TODO implement collision check and movement correction
 		HashSet<Tile> collisionTiles = new HashSet<>();
 		HashSet<Entity> collidedEntities = new HashSet<>();
-		System.out.println(nextOccupiedTiles.size());
 		for(Tile t: nextOccupiedTiles) {
 			if(t == null)
 				continue;
@@ -175,13 +191,22 @@ public class Entity implements Drawable {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.CYAN);
+//		g.setColor(Color.CYAN);
 		int xPos = (int)(x*Tile.TILE_PIXELS/Main.getWindow().getPixelSize()-(Main.getGame().getCamera().x)); // (int) (stage.getCamera().x * Main.getWindow().getPixelSize() - x*Tile.TILE_PIXELS);
 		int yPos = (int)(y*Tile.TILE_PIXELS/Main.getWindow().getPixelSize()-(Main.getGame().getCamera().y)); // (int) (stage.getCamera().y * Main.getWindow().getPixelSize() - y*Tile.TILE_PIXELS);
-		
-		// System.out.println(" cam: " + xPos + " | " + yPos);
-
-		g.fillRect(xPos, yPos, w, h);
+//		
+//		// System.out.println(" cam: " + xPos + " | " + yPos);
+//
+//		g.fillRect(xPos, yPos, w, h);
+		g.translate(xPos,yPos);
+		if(sprite.containsKey(animationIndex)) {
+			if(speedX != 0 || speedY != 0) {
+				g.drawImage(sprite.get(animationIndex).get().get(), 0, 0, null);
+			} else {
+				g.drawImage(sprite.get(animationIndex).get(0).get(), 0, 0, null);
+			}
+		}
+		g.translate(-xPos, -yPos);
 	}
 
 	public double getX() {
@@ -192,4 +217,8 @@ public class Entity implements Drawable {
 		return y;
 	}
 
+	public void setAnim(int on, Image img) {
+		sprite.put(on, img);
+	}
+	
 }

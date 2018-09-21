@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ import de.Jcing.engine.io.KeyBoard;
 import de.Jcing.engine.io.Mouse;
 import de.Jcing.engine.world.Tile;
 import de.Jcing.tasks.Task;
+import de.Jcing.util.Point;
 
 public class Window {
 	
@@ -43,6 +45,10 @@ public class Window {
 	private Task task;
 
 	private FontMetrics fontMetrics;
+
+	private int xOffset;
+
+	private int yOffset;
 	
 	public Window() {
 		frame = new JFrame(TITLE);
@@ -59,6 +65,8 @@ public class Window {
 		
 		frame.add(canvas);
 		frame.addWindowListener(windowListener);
+		frame.setUndecorated(true);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 		frame.requestFocus();
@@ -94,8 +102,8 @@ public class Window {
 		if(imageWidth / 16 * 9 > canvas.getHeight())
 			imageWidth = canvas.getHeight() / 9.0 * 16;
 		double imageHeight = imageWidth / 16.0 * 9;
-		int xOffset = (int)((canvas.getWidth()-imageWidth)/2);
-		int yOffset = (int)((canvas.getHeight()-imageHeight)/2);
+		xOffset = (int)((canvas.getWidth()-imageWidth)/2);
+		yOffset = (int)((canvas.getHeight()-imageHeight)/2);
 		
 		BufferStrategy bs = canvas.getBufferStrategy();
 		
@@ -160,7 +168,7 @@ public class Window {
 	};
 
 	public double getPixelSize() {
-		return 1.0*canvas.getWidth()/PIXEL_WIDTH;
+		return (1.0*canvas.getWidth()-2*xOffset)/PIXEL_WIDTH;
 	}
 
 	public FontMetrics getFontMetrics() {
@@ -169,6 +177,10 @@ public class Window {
 	
 	public int getFPS() {
 		return task.tps;
+	}
+
+	public Point getMouseOnCanvas() {
+		return new Point((Mouse.getX()-xOffset)/getPixelSize(), (Mouse.getY()-yOffset)/getPixelSize());
 	}
 	
 }

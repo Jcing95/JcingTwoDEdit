@@ -41,12 +41,13 @@ public class Image {
 				hasMultiple = true;
 				frames = new ArrayList<>();
 				for (int i = 0; i < files.length; i++) {
-					frames.add(new Image(files[0]));
+					frames.add(new Image(files[i]));
 				}
 			}
 			//one directory --> load sub images as Animation
 			else { 
 				if(files[0].isDirectory()) {
+					System.out.println("anim");
 					isAnimation = true;
 					frames = new ArrayList<>();
 					frames.add(new Image(files[0]));
@@ -58,8 +59,12 @@ public class Image {
 		}
 	}
 	
+	public Image(String string) {
+		this(new File(string));
+	}
+
 	public Frame get() {
-		return get((int)(Math.random()*Integer.MAX_VALUE));
+		return get((int)(Clock.millis() / frameTime));
 	}
 	
 	public Frame get(int index) {
@@ -67,12 +72,13 @@ public class Image {
 			return frames.get(index % frames.size()).get(index);
 		}
 		if(isAnimation) {
-			return frames.get((int) (Clock.millis() / frameTime % frames.size())).get(index);
+			return frames.get(index % frames.size()).get(index);
 		}
 		return frame;
 	}
 	
 	public int size() {
+//		System.out.println(hasMultiple);
 		return frames.size();
 	}
 }

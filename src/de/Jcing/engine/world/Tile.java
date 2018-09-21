@@ -13,6 +13,7 @@ import de.Jcing.engine.io.Mouse;
 import de.Jcing.geometry.Rectangle;
 import de.Jcing.image.Image;
 import de.Jcing.util.Point;
+import de.Jcing.window.Window;
 
 public class Tile implements Drawable {
 	
@@ -22,12 +23,14 @@ public class Tile implements Drawable {
 	private LinkedList<Entity> entities;
 	private LinkedList<Trigger> triggers;
 	
-	private Image testBack = new Image(new File("D:\\git\\JcingWorld\\res\\terrain\\dev\\birch.png"));
+	private Image testBack = new Image(new File("D:\\Bilder\\tiles\\anim\\tile"));
 	
 	private boolean collision;
 	
 	private Chunk chunk;
 	private int x, y;
+	
+	private int texIndex;
 	
 	private Color testColor = new Color((int)(Math.random()*155),(int)(Math.random()*155),(int)(Math.random()*155));
 	
@@ -38,7 +41,9 @@ public class Tile implements Drawable {
 		textures = new LinkedList<>();
 		entities = new LinkedList<>();
 		triggers = new LinkedList<>();
+		texIndex = (int)(Math.random()*1000);
 		textures.add(testBack);
+//		System.out.println(texIndex);
 	}
 	
 	public void addTexture(Image img) {
@@ -56,14 +61,14 @@ public class Tile implements Drawable {
 		}
 		if(!hovered())
 		for(Image i : textures) {
-			g.drawImage(i.get().get(), xOff, yOff, null);
+			g.drawImage(i.get(texIndex).get(), xOff, yOff, null);
 		}
 	}
 	
 	public boolean hovered() {
 		return new Rectangle(getXOnScreen(), getYOnScreen(),
 				TILE_PIXELS, TILE_PIXELS)
-				.contains(new Point(Mouse.getX()/Main.getWindow().getPixelSize(), Mouse.getY()/Main.getWindow().getPixelSize()));
+				.contains(Main.getWindow().getMouseOnCanvas());
 	}
 	
 	public int getXOnScreen() {
