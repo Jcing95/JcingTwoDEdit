@@ -27,8 +27,8 @@ public class Game {
 		
 		mainStage = new Stage();
 		camera = new Point(0,0);
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = -10; i < 10; i++) {
+			for (int j = -10; j < 10; j++) {
 				mainStage.addChunk(i, j);
 			}
 		}
@@ -53,10 +53,10 @@ public class Game {
 		Main.getWindow().addDrawable(exit);
 		
 		testEntity = new Entity(mainStage,0,0,20,20);
-		testEntity.setAnim(Entity.ON_LEFT, new Image("D:\\Bilder\\tiles\\anim\\left"));
-		testEntity.setAnim(Entity.ON_RIGHT, new Image("D:\\Bilder\\tiles\\anim\\right"));
-		testEntity.setAnim(Entity.ON_UP, new Image("D:\\Bilder\\tiles\\anim\\up"));
-		testEntity.setAnim(Entity.ON_DOWN, new Image("D:\\Bilder\\tiles\\anim\\down"));
+		testEntity.setAnim(Entity.ON_LEFT, new Image("gfx/player/left"));
+		testEntity.setAnim(Entity.ON_RIGHT, new Image("gfx/player/right"));
+		testEntity.setAnim(Entity.ON_UP, new Image("gfx/player/up"));
+		testEntity.setAnim(Entity.ON_DOWN, new Image("gfx/player/down"));
 
 		int entityID = mainStage.addEntity(testEntity);
 		
@@ -72,17 +72,30 @@ public class Game {
 	}
 	
 	public void tick() {
+		float x = 0;
+		float y = 0;
 		if(KeyBoard.isPressed(KeyEvent.VK_W) || KeyBoard.isPressed(KeyEvent.VK_UP))
-			testEntity.accelerate(0, -.025f);
+			y = -0.025f;
 		
 		if(KeyBoard.isPressed(KeyEvent.VK_A) || KeyBoard.isPressed(KeyEvent.VK_LEFT))
-			testEntity.accelerate(-.025f, 0);
+			x = -0.025f;
 		
 		if(KeyBoard.isPressed(KeyEvent.VK_S) || KeyBoard.isPressed(KeyEvent.VK_DOWN))
-			testEntity.accelerate(0, .025f);
+			y = 0.025f;
 		
 		if(KeyBoard.isPressed(KeyEvent.VK_D) || KeyBoard.isPressed(KeyEvent.VK_RIGHT))
-			testEntity.accelerate(.025f, 0);
+			x = 0.025f;
+//		
+//		if() {
+//			
+//		}
+		
+		if(KeyBoard.isPressed(KeyEvent.VK_SHIFT)) {
+			System.out.println("SHIFT");
+			x *= 2;
+			y *= 2;
+		}
+		testEntity.accelerate(x, y);
 		
 		mainStage.tick();
 	}	

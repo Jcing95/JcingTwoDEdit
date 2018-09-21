@@ -23,7 +23,7 @@ public class Tile implements Drawable {
 	private LinkedList<Entity> entities;
 	private LinkedList<Trigger> triggers;
 	
-	private Image testBack = new Image(new File("D:\\Bilder\\tiles\\anim\\tile"));
+	private Image testBack = new Image(new File("gfx/terrain"));
 	
 	private boolean collision;
 	
